@@ -1,5 +1,5 @@
 <?php
-namespace src\Model\CaptureModel;
+namespace src\Mod\Model\CaptureModel;
 
 
 class Model extends CaptureModel {

@@ -1,7 +1,7 @@
 <?php
-namespace src\Model\CaptureModel;
+namespace src\Mod\Model\CaptureModel;
 
-use src\Model\BaseModel;
+use src\Mod\Model\BaseModel\BaseModel;
 
 class CaptureModel extends BaseModel{
     protected $_ssUrl;

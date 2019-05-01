@@ -1,6 +1,7 @@
 <?php
-namespace src\Model;
+namespace src\Mod\Model\BaseModel;
 
+use src\Mod\Model\Model;
 
 class BaseModel extends Model {
     protected $_where = [];

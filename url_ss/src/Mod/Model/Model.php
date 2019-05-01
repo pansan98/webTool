@@ -1,5 +1,5 @@
 <?php
-namespace src\Model;
+namespace src\Mod\Model;
 
 class Model {
     // DB接続情報
