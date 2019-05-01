@@ -1,7 +1,7 @@
 <?php
-namespace src\Controller\Base;
+namespace src\Mod\Controller\Base;
 
-use src\Controller\Controller;
+use src\Mod\Controller\Controller;
 
 class BaseController extends Controller {
     private $_actionName;

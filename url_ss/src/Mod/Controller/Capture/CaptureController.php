@@ -1,7 +1,7 @@
 <?php
-namespace src\Controller\Capture;
+namespace src\Mod\Controller\Capture;
 
-use src\Controller\Base\BaseController;
+use src\Mod\Controller\Base\BaseController;
 use JonnyW\PhantomJs\Client;
 
 class CaptureController extends BaseController {
@@ -13,8 +13,7 @@ class CaptureController extends BaseController {
 
     public function __construct()
     {
-        define('CAPTURE_ROOT_VIEW', realpath(dirname(__FILE__).'/../../View').'/');
-        define('CAPTURE_ROOT_DIR', realpath(dirname(__FILE__).'/../../../ss_file').'/');
+        define('CAPTURE_ROOT_VIEW', CAPTURE__ROOT_DIR__MOD.'View/');
     }
 
     public function setActionName($name)
@@ -38,7 +37,8 @@ class CaptureController extends BaseController {
 
     public function getRenderView()
     {
-        return CAPTURE_ROOT_VIEW.$this->getActionName().'/'.parent::getRenderView();
+        $view = parent::getRenderView();
+        return CAPTURE_ROOT_VIEW.$this->getActionName().'/'.$view;
     }
 
     public function setSsUrl($url)
@@ -61,17 +61,15 @@ class CaptureController extends BaseController {
     protected function setCaptureInit()
     {
         $this->_client = Client::getInstance();
-        $this->_request = $this->_client->getMessageFactory()->createCaptureRequest($this->_ssUrl);
+        $this->_client->getEngine()->setPath(CAPTURE__ROOT_DIR.'/bin/phantomjs');
+        $this->_request = $this->_client->getMessageFactory()->createCaptureRequest($this->_ssUrl, 'GET');
         $this->_response = $this->_client->getMessageFactory()->createResponse();
 
-        if(!file_exists(CAPTURE_ROOT_DIR)) {
-            mkdir(CAPTURE_ROOT_DIR);
-        }
     }
 
     protected function getCaptureShot()
     {
-        $file = CAPTURE_ROOT_DIR.'ss.jpg';
+        $file = CAPTURE__ROOT_DIR__SCREEN_SHOT.'ss.jpg';
         $this->_request->setOutputFile($file);
 
         $this->_client->send($this->_request, $this->_response);

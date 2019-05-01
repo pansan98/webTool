@@ -1,5 +1,7 @@
 <body>
-<input class="captureUrl" type="text" name="url" placeholder="https://exsample.com">
+<form id="capture_form" name="capture_form">
+    <input class="captureUrl" type="text" name="url" placeholder="https://exsample.com">
+</form>
 
 <p onclick="setSendCapture(); return false;">キャプる</p>
 </body>
@@ -7,7 +9,12 @@
 <script type="text/javascript">
 
     function setSendCapture() {
-        var url = document.getElementsByClassName('captureUrl').values();
+        var url = document.capture_form.url.value;
+
+        if(url == "") {
+            alert('URLの入力');
+            return false;
+        }
 
         sendCapture(url);
     }
@@ -22,6 +29,11 @@
             if(xhr.readyState === 4) {
                 alert(url+'のキャプチャーに成功しました。');
             }
+        }
+
+        xhr.onerror = function() {
+            console.log(xhr.errorText);
+            alert('キャプチャーに失敗しました。');
         }
     }
 </script>
