@@ -1,6 +1,6 @@
 <?php
 
-use src\Controller\CaptureController\CaptureController as controller;
+use src\Controller\Capture\CaptureController as controller;
 
 if(isset($_POST['url'])) {
     $CaptureController = new controller();
