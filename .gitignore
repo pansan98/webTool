@@ -1,5 +1,5 @@
 
 \.idea/
-url_ss/my_vendor/*
+url_ss/vendor/*
 url_ss/bin/*
 url_ss/composer.lock

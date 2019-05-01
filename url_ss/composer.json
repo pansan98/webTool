@@ -8,10 +8,14 @@
         ]
     },
     "config": {
-        "bin-dir": "bin",
-        "vendor-dir": "my_vendor"
+        "bin-dir": "bin"
     },
     "require": {
         "jonnyw/php-phantomjs": "4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        }
     }
 }
