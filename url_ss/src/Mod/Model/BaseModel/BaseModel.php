@@ -12,11 +12,11 @@ class BaseModel extends Model {
         parent::init();
     }
 
-    protected function setDbSaveWhere($where = [])
+    protected function setDbSaveWhere(array $where = [])
     {
         $dbWhere = [];
         foreach ($where as $key => $val) {
-            $dbWhere['bindKey'][] = $key.' = ?';
+            $dbWhere['bindKey'][] = $key.' = :'.$key;
             $dbWhere['bindValue'][] = $val;
         }
 

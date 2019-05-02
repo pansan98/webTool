@@ -31,7 +31,7 @@ class CaptureModel extends BaseModel{
         return $this;
     }
 
-    protected function setDbSaveWhere($where = [])
+    protected function setDbSaveWhere(array $where = [])
     {
         parent::setDbSaveWhere($where);
     }
