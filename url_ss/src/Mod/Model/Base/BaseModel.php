@@ -66,7 +66,7 @@ class BaseModel extends Model {
             $stmt->execute($where['where']);
         } catch(PDOException $e) {
             echo $e->getMessage();
-            eixt('SQL実行中にエラーが発生しました。'.PHP_EOL.'処理を中断します。');
+            exit('SQL実行中にエラーが発生しました。'.PHP_EOL.'処理を中断します。');
         }
     }
 }
