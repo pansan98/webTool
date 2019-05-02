@@ -1,7 +1,7 @@
 <?php
-namespace src\App\Helper;
+namespace src\App\AppHelper;
 
-abstract class Helper {
+abstract class AppHelper {
     protected static $Helper;
 
     private function __construct()

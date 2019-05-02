@@ -3,3 +3,4 @@
 url_ss/vendor/*
 url_ss/bin/*
 url_ss/composer.lock
+url_ss/ss_file/*

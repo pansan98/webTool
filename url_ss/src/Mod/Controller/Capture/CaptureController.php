@@ -2,7 +2,7 @@
 namespace src\Mod\Controller\Capture;
 
 use src\Mod\Controller\Base\BaseController;
-use src\App\Helper\Capture\CaptureHelper;
+use src\App\AppHelper\Capture\CaptureHelper;
 use JonnyW\PhantomJs\Client;
 
 class CaptureController extends BaseController {
