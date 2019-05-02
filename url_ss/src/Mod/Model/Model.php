@@ -1,6 +1,13 @@
 <?php
 namespace src\Mod\Model;
 
+include_once dirname(__FILE__).'/../../App/bootstrapRootModel.php';
+
+/**
+ * Class Model
+ * @package src\Mod\Model
+ * 基本接続のみ
+ */
 class Model {
     // DB接続情報
     private $_db_name;
@@ -69,6 +76,11 @@ class Model {
     protected function getDbConnect()
     {
         return $this->_db;
+    }
+
+    public function __destruct()
+    {
+        unset($this->_db);
     }
 }
 ?>

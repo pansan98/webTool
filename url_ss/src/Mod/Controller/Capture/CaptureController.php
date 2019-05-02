@@ -2,13 +2,17 @@
 namespace src\Mod\Controller\Capture;
 
 use src\Mod\Controller\Base\BaseController;
+use src\Mod\Model\Capture\CaptureModel;
 use src\App\AppHelper\Capture\CaptureHelper;
 use JonnyW\PhantomJs\Client;
 
 class CaptureController extends BaseController {
     protected $_ssUrl;
+    protected $_fileName;
+    protected $_fileDir;
 
     private $_helper;
+    private $_model;
 
     protected $_isSize = false;
     protected $_size = [];
@@ -89,8 +93,9 @@ class CaptureController extends BaseController {
             $this->_request->setViewportSize($this->_size['width'], $this->_size['height'], $this->_size['top'], $this->_size['left']);
         }
 
-        $file = CAPTURE__ROOT_DIR__SCREEN_SHOT.$this->_helper->getRandomText().'.jpg';
-        $this->_request->setOutputFile($file);
+        $this->_fileName = $this->_helper->getRandomText().'.jpg';
+        $this->_fileDir = CAPTURE__ROOT_DIR__SCREEN_SHOT.$this->_fileName;
+        $this->_request->setOutputFile($this->_fileDir);
 
         $this->_client->send($this->_request, $this->_response);
 
@@ -102,5 +107,28 @@ class CaptureController extends BaseController {
         $this->_helper = CaptureHelper::getInstance();
         $this->_helper->setInit('length', 20)->setInit('date', date('Ymd'));
     }
+
+    public function setRunSaves()
+    {
+        $model = CaptureModel::class;
+        $this->_model = new $model;
+
+        return $this;
+    }
+
+    public function isRunSaves()
+    {
+        $saves = [];
+        $saves = [
+            ['capture_url' => $this->_fileDir],
+            ['capture_copy' => $this->_ssUrl],
+            ['capture_filename' => $this->_fileName],
+            ['user_id' => 1],
+            ['capture_created' => date('Y-m-d')]
+        ];
+
+        $this->_model->isRunSaves($saves);
+    }
+
 }
 ?>

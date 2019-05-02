@@ -41,7 +41,7 @@ class CaptureHelper extends AppHelper{
             $randomText .= $str[rand(0, count($str) - 1)];
         }
 
-        return $this->getInit('date').$randomText;
+        return $this->getInit('date').'_'.$randomText;
     }
 
 }

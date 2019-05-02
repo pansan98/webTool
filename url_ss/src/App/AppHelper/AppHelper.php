@@ -9,7 +9,7 @@ abstract class AppHelper {
 
     }
 
-    abstract public static function getInstance();
+    abstract public static function getInstance($dbTable, $statement);
 
 
 }
