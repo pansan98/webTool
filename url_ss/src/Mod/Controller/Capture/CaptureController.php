@@ -2,10 +2,16 @@
 namespace src\Mod\Controller\Capture;
 
 use src\Mod\Controller\Base\BaseController;
+use src\App\Helper\Capture\CaptureHelper;
 use JonnyW\PhantomJs\Client;
 
 class CaptureController extends BaseController {
     protected $_ssUrl;
+
+    private $_helper;
+
+    protected $_isSize = false;
+    protected $_size = [];
 
     private $_client;
     private $_request;
@@ -52,10 +58,11 @@ class CaptureController extends BaseController {
         return $this->_ssUrl;
     }
 
-    public function getCapture()
+    public function setCapture()
     {
+        // キャプチャー初期設定
         $this->setCaptureInit();
-        $this->getCaptureShot();
+        return $this;
     }
 
     protected function setCaptureInit()
@@ -64,17 +71,36 @@ class CaptureController extends BaseController {
         $this->_client->getEngine()->setPath(CAPTURE__ROOT_DIR.'/bin/phantomjs');
         $this->_request = $this->_client->getMessageFactory()->createCaptureRequest($this->_ssUrl, 'GET');
         $this->_response = $this->_client->getMessageFactory()->createResponse();
+        $this->setHelper();
 
     }
-
-    protected function getCaptureShot()
+    public function setCaptureSize(array $size)
     {
-        $file = CAPTURE__ROOT_DIR__SCREEN_SHOT.'ss.jpg';
+        foreach ($size as $kSize => $vSize) {
+            $this->_size[$kSize] = $vSize;
+        }
+
+        $this->_isSize = true;
+    }
+
+    public function getCaptureShot()
+    {
+        if($this->_isSize){
+            $this->_request->setViewportSize($this->_size['width'], $this->_size['height'], $this->_size['top'], $this->_size['left']);
+        }
+
+        $file = CAPTURE__ROOT_DIR__SCREEN_SHOT.$this->_helper->getRandomText().'.jpg';
         $this->_request->setOutputFile($file);
 
         $this->_client->send($this->_request, $this->_response);
 
         return true;
+    }
+
+    protected function setHelper()
+    {
+        $this->_helper = CaptureHelper::getInstance();
+        $this->_helper->setInit('length', 20)->setInit('date', date('Ymd'));
     }
 }
 ?>

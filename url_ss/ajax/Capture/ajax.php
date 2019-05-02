@@ -6,6 +6,6 @@ if(isset($_POST['url'])) {
     require_once '../../vendor/autoload.php';
     $CaptureController = new controller();
     $CaptureController->setActionName('Capture')->setSsUrl($_POST['url']);
-    return $CaptureController->getCapture();
+    return $CaptureController->setCapture()->getCaptureShot();
 }
 ?>
