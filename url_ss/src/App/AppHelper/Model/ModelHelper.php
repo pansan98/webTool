@@ -11,9 +11,9 @@ class ModelHelper extends AppHelper{
 
     private function __construct($dbTable, $statement)
     {
+        $this->_db_table = $dbTable;
         $status = $this->getSQLStatement($statement);
         $this->_where['statement'] = $status;
-        $this->_db_table = $dbTable;
     }
 
     public static function getInstance($dbTable, $statement = SQL__STATEMENT_SELECT)
@@ -53,10 +53,10 @@ class ModelHelper extends AppHelper{
                 $sql = "SELECT * FROM ".$this->_db_table;
                 break;
             case SQL__STATEMENT_UPDATE:
-                $sql = "UPDATE ".$this->_db_table;
+                $sql = "UPDATE SET".$this->_db_table;
                 break;
             case SQL__STATEMENT_INSERT:
-                $sql = "INSERT INTO ".$this->_db_table." VALUES (";
+                $sql = "INSERT INTO ".$this->_db_table." (";
                 break;
             case SQL__STATEMENT_DELETE:
                 $sql = "DELETE FROM ".$this->_db_table;

@@ -5,12 +5,23 @@ use src\Mod\Model\Base\BaseModel;
 use src\App\AppHelper\Model\ModelHelper;
 
 class CaptureModel extends BaseModel{
+    protected static $instance;
+
     protected $_statement;
     protected $_where = [];
 
     protected $_modelHelper;
 
     protected $_db_table = 'applications_capture';
+
+    public static function getInstance()
+    {
+        if(!self::$instance instanceof CaptureModel) {
+            self::$instance = new static();
+        }
+
+        return self::$instance;
+    }
 
     public function isRunSaves(array $wheres)
     {

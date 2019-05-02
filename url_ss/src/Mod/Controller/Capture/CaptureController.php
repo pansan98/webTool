@@ -104,14 +104,13 @@ class CaptureController extends BaseController {
 
     protected function setHelper()
     {
-        $this->_helper = CaptureHelper::getInstance();
+        $this->_helper = CaptureHelper::getInstance('applications_capture', SQL__STATEMENT_SELECT);
         $this->_helper->setInit('length', 20)->setInit('date', date('Ymd'));
     }
 
     public function setRunSaves()
     {
-        $model = CaptureModel::class;
-        $this->_model = new $model;
+        $this->_model = CaptureModel::getInstance();
 
         return $this;
     }
@@ -119,13 +118,14 @@ class CaptureController extends BaseController {
     public function isRunSaves()
     {
         $saves = [];
-        $saves = [
-            ['capture_url' => $this->_fileDir],
-            ['capture_copy' => $this->_ssUrl],
-            ['capture_filename' => $this->_fileName],
-            ['user_id' => 1],
-            ['capture_created' => date('Y-m-d')]
-        ];
+        $saves =
+            [
+                'capture_url' => $this->_fileDir,
+                'capture_copy' => $this->_ssUrl,
+                'capture_filename' => $this->_fileName,
+                'user_id' => 1,
+                'capture_created' => date('Y-m-d')
+            ];
 
         $this->_model->isRunSaves($saves);
     }

@@ -3,6 +3,9 @@ namespace src\Mod\Model;
 
 include_once dirname(__FILE__).'/../../App/bootstrapRootModel.php';
 
+use \PDO;
+use \PDOException;
+
 /**
  * Class Model
  * @package src\Mod\Model
@@ -39,10 +42,10 @@ class Model {
             case '127.0.0.1':
                 $dbSetting = array(
                     'db_name' => 'applications',
-                    'db_host' => 'localhost',
+                    'db_host' => '127.0.0.1',
                     'port' => '3306',
                     'user_name' => 'root',
-                    'user_password' => ''
+                    'user_password' => 'root'
                 );
                 break;
             default:
@@ -70,7 +73,14 @@ class Model {
 
     protected function setDbConnect()
     {
-        $this->_db = new PDO("mysql:dbname={$this->_db_name}; host={$this->_db_host}; port={$this->_db_port}; charset=utf8", $this->_db_user, $this->_db_password);
+        try{
+            $this->_db = new PDO("mysql:dbname=".$this->_db_name.";host=".$this->_db_host.";port=".$this->_db_port.";charset=utf8", $this->_db_user, $this->_db_password);
+            return true;
+        } catch(PDOException $e) {
+            $this->_db = [];
+            $this->_db['error'] = $e->getMessage();
+            return false;
+        }
     }
 
     protected function getDbConnect()

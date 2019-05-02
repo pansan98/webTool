@@ -5,6 +5,7 @@ use src\Mod\Model\Model;
 
 class BaseModel extends Model {
     protected $_pdo;
+    protected $_result;
 
     protected $_where = [];
 
@@ -13,9 +14,9 @@ class BaseModel extends Model {
         parent::init();
     }
 
-    protected function setDbConnet()
+    protected function setDbConnect()
     {
-        parent::setDbConnet();
+        return parent::setDbConnect();
     }
 
     protected function getDbConnect()
@@ -26,41 +27,46 @@ class BaseModel extends Model {
     protected function setDbSaveWhere(array $where)
     {
         $this->init();
-        $this->setDbConnet();
-        $this->_pdo = $this->getDbConnect();
-        $this->runDbSave($where);
-        $dbWhere = [];
-        foreach ($where as $key => $val) {
-            $dbWhere['bindKey'][] = $key.' = :'.$key;
-            $dbWhere['bindValue'][$key] = $val;
-        }
+        if($this->setDbConnect()) {
+            $this->_pdo = $this->getDbConnect();
+            $this->runDbSave($where);
+            $dbWhere = [];
+            foreach ($where as $key => $val) {
+                $dbWhere['bindKey'][] = $key.' = :'.$key;
+                $dbWhere['bindValue'][$key] = $val;
+            }
 
-        $this->_where[] = $dbWhere;
+            $this->_where[] = $dbWhere;
+        } else {
+            $error = $this->getDbConnect();
+            var_dump($error['error']);
+            exit('DB接続に失敗しました。');
+        }
     }
 
     private function runDbSave($where)
     {
         $sqlStmt = "";
         $sqlStmt = $where['statement'];
+        $bindValue = "(";
         foreach ($where['where'] as $keys => $value) {
-            if (is_array($value)) {
-                $value = serialize($value);
-            }
             if($value === end($where['where'])) {
-                $sqlStmt .= ':'.$keys.')';
+                $sqlStmt .= $keys.')';
+                $bindValue .= ':'.$keys.')';
             } else {
-                $sqlStmt .= ':'.$keys.', ';
+                $sqlStmt .= $keys.', ';
+                $bindValue .= ':'.$keys.', ';
             }
         }
 
+        $stmtString = $sqlStmt.'VALUES'.$bindValue;
+
         try {
-            $stmt = $this->_pdo->prepare($where['statement'].$sqlStmt);
-            foreach ($where['where'] as $key => $val) {
-                $stmt->bindValue(':'.$key, $val);
-            }
-            $stmt->execute();
+            $stmt = $this->_pdo->prepare($stmtString);
+            $stmt->execute($where['where']);
         } catch(PDOException $e) {
             echo $e->getMessage();
+            eixt('SQL実行中にエラーが発生しました。'.PHP_EOL.'処理を中断します。');
         }
     }
 }
