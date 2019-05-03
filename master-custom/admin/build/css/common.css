@@ -1,0 +1,29 @@
+@charset "UTF-8";
+/* ===================================================================
+CSS information
+
+ file name  : common.css
+ author     : Ability Consultant
+ style info : 基本・共通設定
+=================================================================== */
+/* font-awesome */
+/* -----------------------------------------------------------
+	基本設定、リンクカラーなど
+----------------------------------------------------------- */
+
+
+label {
+	color: #424242;
+	border-radius: 15px;
+}
+label:hover {
+	cursor: pointer;
+}
+label span {
+	padding: 10px;
+	border-radius: 15px;
+}
+label input[type=checkbox]:checked ~ span {
+	background: #1ABB9C;
+	color: #fff;
+}

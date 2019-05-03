@@ -1,0 +1,1 @@
+<input type="hidden" name="<?php echo $template->getName(); ?>" id="<?php echo $template->getId(); ?>" value="<?php echo $template->getValue(); ?>" />
