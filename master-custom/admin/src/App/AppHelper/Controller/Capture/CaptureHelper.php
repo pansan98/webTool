@@ -13,7 +13,7 @@ class CaptureHelper extends AppHelper{
 
     }
 
-    public static function getInstance($dbTable, $statement)
+    public static function getInstance()
     {
         if(!self::$instanceHelper instanceof CaptureHelper) {
             self::$instanceHelper = new static();

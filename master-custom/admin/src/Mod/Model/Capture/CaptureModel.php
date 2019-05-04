@@ -14,6 +14,11 @@ class CaptureModel extends BaseModel{
 
     protected $_db_table = 'applications_capture';
 
+    public function __construct()
+    {
+        $this->_modelHelper = ModelHelper::getInstance();
+    }
+
     public static function getInstance()
     {
         if(!self::$instance instanceof CaptureModel) {
@@ -25,7 +30,7 @@ class CaptureModel extends BaseModel{
 
     public function isRunSaves(array $wheres)
     {
-        $this->_modelHelper = ModelHelper::getInstance($this->_db_table, SQL__STATEMENT_INSERT);
+        $this->_modelHelper->setDbTableName($this->_db_table)->setSQLStatement(WEB_TOOL__SQL__STATEMENT_INSERT);
         foreach ($wheres as $keyWhere => $valWhere) {
             $this->_modelHelper->setAddWhere($keyWhere, $valWhere);
         }

@@ -9,23 +9,35 @@ class ModelHelper extends AppHelper{
     protected $_where = [];
     protected $_db_table;
 
-    private function __construct($dbTable, $statement)
+    private function __construct()
     {
-        $this->_db_table = $dbTable;
-        $status = $this->getSQLStatement($statement);
-        $this->_where['statement'] = $status;
+
     }
 
-    public static function getInstance($dbTable, $statement = WEB_TOOL__SQL__STATEMENT_SELECT)
+    public static function getInstance()
     {
         if(!self::$instanceHelper instanceof ModelHelper) {
-            self::$instanceHelper = new static($dbTable, $statement);
+            self::$instanceHelper = new static();
         }
 
         return self::$instanceHelper;
     }
 
-    // 生成したSQLに置き換える
+    public function setDbTableName($name)
+    {
+        $this->_db_table = $name;
+
+        return $this;
+    }
+
+    public function setSQLStatement($statement)
+    {
+        $this->_where['statement'] = $this->getSQLStatement($statement);
+
+        return $this;
+    }
+
+    // 生成したSQLに置換する
     public function setWhere(array $where)
     {
         $this->_where = $where;

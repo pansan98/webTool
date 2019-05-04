@@ -32,7 +32,7 @@ class BaseController extends Controller {
     protected function setDisplayName()
     {
         $ControllerHelper = ControllerHelper::getInstance('applications_capture', WEB_TOOL__SQL__STATEMENT_SELECT);
-        $this->_displayName =$ControllerHelper->getDisplayname();
+        $this->_displayName = $ControllerHelper->getDisplayname();
     }
 
     protected function getDisplayName()

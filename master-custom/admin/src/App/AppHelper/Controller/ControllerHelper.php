@@ -6,14 +6,14 @@ use src\App\AppHelper\AppHelper;
 class ControllerHelper extends AppHelper{
     protected static $instanceHelper;
 
-    private $_arrDisplayName = [];
+    private $_displayName = [];
 
     private function __construct()
     {
-        $this->_arrDisplayName = ["Admin", "Front"];
+        $this->_displayName = ["Admin", "Front"];
     }
 
-    public static function getInstance($dbTable, $statement)
+    public static function getInstance()
     {
         if(!self::$instanceHelper instanceof ControllerHelper) {
             self::$instanceHelper = new static();
@@ -84,7 +84,7 @@ class ControllerHelper extends AppHelper{
         } else {
             $paramInt = 0;
         }
-        return $this->_arrDisplayName[$paramInt];
+        return $this->_displayName[$paramInt];
     }
 }
 ?>

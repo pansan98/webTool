@@ -48,7 +48,7 @@ class CaptureController extends BaseController {
     public function getRenderView()
     {
         $view = parent::getRenderView();
-        return WEB_TOOL__MASTER_CUSTOM_ROOT_MOD__VIEW_DIR.$this->getDisplayName().'/'.$this->getActionName().'/'.$view;
+        return WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.$this->getDisplayName().'/'.$this->getActionName().'/'.$view;
     }
 
     public function getDisplayName()
@@ -109,7 +109,7 @@ class CaptureController extends BaseController {
 
     protected function setHelper()
     {
-        $this->_helper = CaptureHelper::getInstance('applications_capture', WEB_TOOL__SQL__STATEMENT_SELECT);
+        $this->_helper = CaptureHelper::getInstance();
         $this->_helper->setInit('length', 20)->setInit('date', date('Ymd'));
     }
 
