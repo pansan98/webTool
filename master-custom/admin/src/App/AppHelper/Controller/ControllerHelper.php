@@ -79,10 +79,10 @@ class ControllerHelper extends AppHelper{
     public function getDisplayName()
     {
         $paramInt = 1;
-        if(strpos($_SERVER['REQUEST_URI'], 'admin') !== false) {
-            $paramInt = 1;
-        } else {
+        if(strpos($_SERVER['SCRIPT_NAME'], 'admin') !== false) {
             $paramInt = 0;
+        } else {
+            $paramInt = 1;
         }
         return $this->_displayName[$paramInt];
     }

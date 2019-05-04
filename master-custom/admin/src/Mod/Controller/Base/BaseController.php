@@ -2,6 +2,7 @@
 namespace src\Mod\Controller\Base;
 
 use src\Mod\Controller\Controller;
+use src\Mod\Controller\Capture\CaptureController;
 use src\App\AppHelper\Controller\ControllerHelper;
 
 class BaseController extends Controller {
@@ -9,9 +10,13 @@ class BaseController extends Controller {
     private $_renderView;
     private $_displayName;
 
-    protected function setActionName($name)
+    private $_actionController;
+
+    public function setActionName($name)
     {
         $this->_actionName = $name;
+
+        return $this;
     }
 
     protected function setRenderView($view)
@@ -31,7 +36,7 @@ class BaseController extends Controller {
 
     protected function setDisplayName()
     {
-        $ControllerHelper = ControllerHelper::getInstance('applications_capture', WEB_TOOL__SQL__STATEMENT_SELECT);
+        $ControllerHelper = ControllerHelper::getInstance();
         $this->_displayName = $ControllerHelper->getDisplayname();
     }
 
@@ -42,7 +47,11 @@ class BaseController extends Controller {
 
     public function getController()
     {
+        if(is_null($this->_actionController)) {
+            $this->_actionController = "src\\Mod\\Controller\\".$this->getActionName()."\\".$this->getActionName()."Controller";
+        }
 
+        return $this->_actionController::getInstance();
     }
 }
 ?>

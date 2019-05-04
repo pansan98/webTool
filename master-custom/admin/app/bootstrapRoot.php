@@ -1,7 +1,7 @@
 <?php
 // parent dir name
 if(!defined('WEB_TOOL__DIR')) {
-    define('WEB_TOOL__DIR', realpath(dirname(__FILE__).'/../../../../'));
+    define('WEB_TOOL__DIR', realpath(dirname(__FILE__).'/../../../'));
 }
 
 // parent path name

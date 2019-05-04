@@ -7,6 +7,8 @@ use src\App\AppHelper\Controller\Capture\CaptureHelper;
 use JonnyW\PhantomJs\Client;
 
 class CaptureController extends BaseController {
+    public static $instance;
+
     protected $_ssUrl;
     protected $_fileName;
     protected $_fileDir;
@@ -24,6 +26,16 @@ class CaptureController extends BaseController {
     public function __construct()
     {
         parent::setDisplayName();
+        $this->setActionName('Capture');
+    }
+
+    public static function getInstance()
+    {
+        if(!self::$instance instanceof CaptureController) {
+            self::$instance = new static();
+        }
+
+        return self::$instance;
     }
 
     public function setActionName($name)
@@ -49,6 +61,13 @@ class CaptureController extends BaseController {
     {
         $view = parent::getRenderView();
         return WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.$this->getDisplayName().'/'.$this->getActionName().'/'.$view;
+    }
+
+    public function setDisplayName()
+    {
+        parent::setDisplayName();
+
+        return $this;
     }
 
     public function getDisplayName()
@@ -115,7 +134,9 @@ class CaptureController extends BaseController {
 
     public function setRunSaves()
     {
-        $this->_model = CaptureModel::getInstance();
+        if(!$this->_model instanceof CaptureModel) {
+            $this->_model = CaptureModel::getInstance();
+        }
 
         return $this;
     }
@@ -123,9 +144,11 @@ class CaptureController extends BaseController {
     public function isRunSaves()
     {
         $saves = [];
+        $fileUrl = "";
+        $fileUrl = str_replace(WEB_TOOL__DIR, '', $this->_fileDir);
         $saves =
             [
-                'capture_url' => $this->_fileDir,
+                'capture_url' => $fileUrl,
                 'capture_copy' => $this->_ssUrl,
                 'capture_filename' => $this->_fileName,
                 'user_id' => 1,
@@ -133,6 +156,12 @@ class CaptureController extends BaseController {
             ];
 
         $this->_model->isRunSaves($saves);
+    }
+
+    public function getData()
+    {
+        $this->setRunSaves();
+        return $this->_model->getData();
     }
 
 }

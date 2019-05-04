@@ -6,6 +6,7 @@ use src\App\AppHelper\AppHelper;
 class ModelHelper extends AppHelper{
     protected static $instanceHelper;
 
+    protected $_sqlStatementStatus;
     protected $_where = [];
     protected $_db_table;
 
@@ -32,9 +33,15 @@ class ModelHelper extends AppHelper{
 
     public function setSQLStatement($statement)
     {
+        $this->_sqlStatementStatus = $statement;
         $this->_where['statement'] = $this->getSQLStatement($statement);
 
         return $this;
+    }
+
+    public function getSQLStatementStatus()
+    {
+        return $this->_sqlStatementStatus;
     }
 
     // 生成したSQLに置換する
@@ -78,5 +85,19 @@ class ModelHelper extends AppHelper{
         return $sql;
     }
 
+    public function getSqlStatus()
+    {
+        if($this->getSQLStatementStatus() === WEB_TOOL__SQL__STATEMENT_SELECT) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public function getCamelCase($snakeCase)
+    {
+        return ucfirst(lcfirst(strtr(ucwords(strtr($snakeCase, ['_' => ' '])), [' ' => ''])));
+    }
 }
 ?>
