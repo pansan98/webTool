@@ -22,6 +22,36 @@ class CaptureHelper extends AppHelper{
         return self::$instanceHelper;
     }
 
+    public function getQuery()
+    {
+        return parent::getQuery();
+    }
+
+    public function getQueryParam($key)
+    {
+        return parent::getQueryParam($key);
+    }
+
+    public function getGetQuery()
+    {
+        return parent::getGetQuery();
+    }
+
+    public function getGetQueryParam($key)
+    {
+        return parent::getGetQueryParam($key);
+    }
+
+    public function getPostQuery()
+    {
+        return parent::getPostQuery();
+    }
+
+    public function getPostQueryParam($key)
+    {
+        return parent::getPostQueryParam($key);
+    }
+
     public function setInit($key, $value)
     {
         $this->_init[$key] = $value;

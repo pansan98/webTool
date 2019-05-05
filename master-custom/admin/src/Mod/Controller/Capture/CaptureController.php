@@ -100,6 +100,7 @@ class CaptureController extends BaseController {
         $this->_request = $this->_client->getMessageFactory()->createCaptureRequest($this->_ssUrl, 'GET');
         $this->_response = $this->_client->getMessageFactory()->createResponse();
         $this->setHelper();
+        $this->_helper->setInit('length', 20)->setInit('date', date('Ymd'));
 
     }
     public function setCaptureSize(array $size)
@@ -126,10 +127,18 @@ class CaptureController extends BaseController {
         return true;
     }
 
-    protected function setHelper()
+    public function setHelper()
     {
-        $this->_helper = CaptureHelper::getInstance();
-        $this->_helper->setInit('length', 20)->setInit('date', date('Ymd'));
+        if(!$this->_helper instanceof CaptureHelper) {
+            $this->_helper = CaptureHelper::getInstance();
+        }
+
+        return $this;
+    }
+
+    public function getPostQueryParam($key)
+    {
+        return $this->_helper->getPostQueryParam($key);
     }
 
     public function setRunSaves()
