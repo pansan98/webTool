@@ -1,9 +1,9 @@
 <?php
 namespace src\App\AppHelper\Controller;
 
-use src\App\AppHelper\AppHelper;
+use src\App\AppHelper\AppControllerHelper;
 
-class ControllerHelper extends AppHelper{
+class ControllerHelper extends AppControllerHelper{
     protected static $instanceHelper;
 
     private $_displayName = [];

@@ -1,7 +1,7 @@
 <?php
 namespace src\App\AppHelper;
 
-abstract class AppHelper {
+abstract class AppControllerHelper {
     protected static $Helper;
 
     /**

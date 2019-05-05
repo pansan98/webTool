@@ -1,9 +1,9 @@
 <?php
 namespace src\App\AppHelper\Model;
 
-use src\App\AppHelper\AppHelper;
+use src\App\AppHelper\AppModelHelper;
 
-class ModelHelper extends AppHelper{
+class ModelHelper extends AppModelHelper{
     protected static $instanceHelper;
 
     protected $_sqlStatementStatus;

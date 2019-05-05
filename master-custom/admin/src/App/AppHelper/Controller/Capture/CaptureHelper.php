@@ -1,9 +1,9 @@
 <?php
 namespace src\App\AppHelper\Controller\Capture;
 
-use src\App\AppHelper\AppHelper;
+use src\App\AppHelper\Controller\ControllerHelper;
 
-class CaptureHelper extends AppHelper{
+class CaptureHelper extends ControllerHelper{
     protected static $instanceHelper;
 
     protected $_init = [];
