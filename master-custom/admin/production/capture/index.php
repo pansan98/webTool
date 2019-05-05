@@ -33,17 +33,17 @@ include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.'Admin/Parts/head.php';
                       <div class="title_left">
                           <h3><?php echo $actionController->getActionName(); ?> <small>Data</small></h3>
                       </div>
-                      <div class="title_left">
-                          <h3><a href="<?php //echo LOCATION_FRONT; ?>/user/category/">新規作成</a></h3>
-                      </div>
 
                       <div class="title_right">
                           <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                               <div class="input-group">
-                                  <input type="text" class="form-control" value="" placeholder="Search for title">
+                                  <!--<input type="text" class="form-control" value="" placeholder="Search for title">-->
+<!--                                  <span class="input-group-btn">-->
+<!--                                      <button onclick="return searchVal();" class="btn btn-default" type="button">Search</button>-->
+<!--                                  </span>-->
                                   <span class="input-group-btn">
-                      <button onclick="return searchVal();" class="btn btn-default" type="button">Search</button>
-                    </span>
+                                      <button onclick="redirectCreate();" class="btn btn-default" type="button" style="float: right;">Create</button>
+                                  </span>
                               </div>
                           </div>
                       </div>
@@ -94,13 +94,8 @@ include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.'Admin/Parts/head.php';
     <?php include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.'Admin/Parts/common_js.php'; ?>
 
     <script type="text/javascript">
-        function deleteCategory(id, data) {
-            conf = confirm('削除します。よろしいですか？');
-            if (conf == true) {
-                window.location.href = '../../app/model/Data/delete.php?id='+id+'&data='+data;
-            } else {
-                return false;
-            }
+        function redirectCreate() {
+            window.location.href = window.location+'edit/';
         }
     </script>
   </body>

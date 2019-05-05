@@ -31,7 +31,7 @@ $webToolItems = $actionController->getData();
 <!--                        <td class="a-center ">-->
 <!--                            <input type="checkbox" class="flat" name="table_records">-->
 <!--                        </td>-->
-                        <td class=" "><?php echo $item->getCaptureUrl(); ?></td>
+                        <td class="center" style="width: 20%;"><img src="<?php echo WEB_TOOL__PATH.$item->getCaptureUrl(); ?>" style="width: 100%; height: 150px; object-fit: cover;"></td>
                         <td class=" "><?php echo $item->getCaptureCopy(); ?></td>
                         <td class=" "><?php echo $item->getCaptureCreated(); ?></td>
                         <td class=" ">見る</td>
@@ -51,3 +51,8 @@ $webToolItems = $actionController->getData();
             </table>
     </div>
 </div>
+<style>
+    .point td {
+        vertical-align: middle;
+    }
+</style>

@@ -5,3 +5,4 @@ url_ss/composer.lock
 url_ss/ss_file/*
 master-custom/admin/vendor/*
 master-custom/admin/bin/*
+datas/*

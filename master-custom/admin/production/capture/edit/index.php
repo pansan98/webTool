@@ -34,7 +34,7 @@ include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.'Admin/Parts/head.php';
                           <h3><?php echo $actionController->getActionName(); ?></h3>
                       </div>
                       <div class="title_left">
-                          <h3><a href="<?php //echo LOCATION_FRONT; ?>/user/category/">新規作成</a></h3>
+                          <h3>新規作成</h3>
                       </div>
                   </div>
 
