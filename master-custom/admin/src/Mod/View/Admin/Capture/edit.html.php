@@ -6,7 +6,7 @@
                 <thead>
                 <tr class="headings">
                     <th>
-                        <input type="text" class="capture-form" name="capture" style="width: 100%; color: #2A3F54;">
+                        <input type="text" class="capture-form" name="capture" style="width: 100%; color: #2A3F54;" placeholder="input capture URL">
                     </th>
                 </tr>
                 </thead>
