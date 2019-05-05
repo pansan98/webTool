@@ -6,11 +6,20 @@
                 <thead>
                 <tr class="headings">
                     <th>
-                        <input type="text" class="capture-form" name="capture">
+                        <input type="text" class="capture-form" name="capture" style="width: 100%; color: #2A3F54;">
                     </th>
                 </tr>
                 </thead>
             </table>
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                      <button onclick="setSendCapture(); return true;" class="btn btn-default" type="button" style="float: right;">Push</button>
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -26,7 +35,7 @@
 
         function sendCapture(url) {
             $.ajax({
-                "url":"../app/ajax/Capture/ajax.php",
+                "url":"../../app/ajax/Capture/ajax.php",
                 "type":"post",
                 "data":{"capture_url":url}
             }).done(function(response){
