@@ -17,6 +17,8 @@ class UserModel extends BaseModel{
 
     protected $_db_table = 'applications_user';
 
+    protected $_where = [];
+
     public function __construct()
     {
         $this->_modelHelper = ModelHelper::getInstance();
@@ -63,6 +65,31 @@ class UserModel extends BaseModel{
         }
         header('Location:'.$redirectUrl);
         exit;
+    }
+
+    public function setDbUserSaves($formData)
+    {
+        $this->_modelHelper->setDbTableName($this->_db_table)->setSQLStatement(WEB_TOOL__SQL__STATEMENT_INSERT);
+        foreach ($formData as $keyForm => $valForm) {
+            if($keyForm == 'user_password') {
+                $valForm = password_hash($valForm, PASSWORD_DEFAULT);
+            }
+            if($keyForm != 'user_form_status' || $keyForm != 'display') {
+                $this->_modelHelper->setAddWhere($keyForm, $valForm);
+            }
+        }
+
+        $this->_where = $this->_modelHelper->getWhere();
+        return $this->setDbSaveWhere($this->_where);
+    }
+
+    protected function setDbSaveWhere(array $where)
+    {
+        if($this->_modelHelper->getSqlStatus()) {
+            return parent::setDbSaveWhere($where);
+        }
+        parent::setDbSaveWhere($where);
+        return true;
     }
 }
 ?>

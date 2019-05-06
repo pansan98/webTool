@@ -4,6 +4,7 @@ namespace src\Mod\Controller\User;
 
 use src\Mod\Controller\Base\BaseController;
 use src\Mod\Model\User\UserModel;
+use src\App\AppHelper\Controller\ControllerHelper;
 
 class UserController extends BaseController {
     public static $instance;
@@ -78,9 +79,26 @@ class UserController extends BaseController {
         return $this;
     }
 
+    protected function setHelper()
+    {
+        $this->_helper = ControllerHelper::getInstance();
+
+        return $this;
+    }
+
     public function getDisplayName()
     {
         return parent::getDisplayName();
+    }
+
+    public function setDbUserSaves($post)
+    {
+        $formData = $this->setHelper()->_helper->getForm($post);
+        if(isset($formData['error'])) {
+            return $formData;
+        }
+
+        return $this->_model->setDbUserSaves($formData);
     }
 }
 ?>

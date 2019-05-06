@@ -86,5 +86,22 @@ class ControllerHelper extends AppControllerHelper{
         }
         return $this->_displayName[$paramInt];
     }
+
+    public function getForm($post)
+    {
+        $arrPost = [];
+        foreach ($post as $key => $val) {
+            if($val == "") {
+                $arrPost['error'][$key] = $key.'の入力をしてください。';
+            }
+            if(is_array($val)) {
+                $this->getForm($val);
+            } else {
+                $arrPost[$key] = htmlspecialchars(strip_tags(mb_convert_encoding($val, 'UTF-8', 'auto')));
+            }
+        }
+
+        return $arrPost;
+    }
 }
 ?>
