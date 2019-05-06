@@ -6,7 +6,12 @@ class Model extends SessionModel {
     protected $_session = [];
     protected static $instance;
 
-    public function getInstance()
+    public function __construct()
+    {
+
+    }
+
+    public static function getInstance()
     {
         if(!self::$instance instanceof SessionModel) {
             self::$instance = new static();
@@ -40,9 +45,13 @@ class Model extends SessionModel {
         $this->_session[$key] = $value;
     }
 
-    protected function getSession($key)
+    public function getSession($key)
     {
-        return $this->_session[$key];
+        if(isset($this->_session[$key])) {
+            return $this->_session[$key];
+        } else {
+            return "";
+        }
     }
 }
 ?>

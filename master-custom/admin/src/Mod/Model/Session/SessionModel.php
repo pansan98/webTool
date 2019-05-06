@@ -4,7 +4,7 @@ namespace src\Mod\Model\Session;
 use src\Mod\Model\Base\BaseModel;
 use src\Mod\Model\Session\Model;
 
-session_start();
+//session_start();
 
 class SessionModel extends BaseModel{
 
@@ -15,9 +15,10 @@ class SessionModel extends BaseModel{
     {
         $this->setModelInstance();
         self::$sessionModelInstance->setAllSession($session);
+        $this->setRedirect();
     }
 
-    public function getInstance()
+    public static function getInstance()
     {
         if(!self::$sessionInstance instanceof SessionModel) {
             self::$sessionInstance = new static($_SESSION);
@@ -52,9 +53,25 @@ class SessionModel extends BaseModel{
         return self::$sessionInstance;
     }
 
-    protected function getSession($key)
+    public function getSession($key)
     {
         return self::$sessionModelInstance->getSession($key);
+    }
+
+    public function getRedirect()
+    {
+        return $this->getSession('redirect_url');
+    }
+
+    protected function setRedirect()
+    {
+        if(isset($_SERVER['HTTP_REFERER'])) {
+            $referer = $_SERVER['HTTP_REFERER'];
+        } else {
+            $referer = WEB_TOOL__MASTER_CUSTOM__ROOT_PATH.'admin/production/';
+        }
+
+        $this->setSession('redirect_url', $referer);
     }
 
 }

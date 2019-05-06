@@ -1,28 +1,26 @@
 <?php
 session_start();
-if (isset($_SESSION['user'])) {
-    include './production/Parts/head.php';
+include dirname(__FILE__).'/../bootstrap.php';
+
+use src\Mod\Controller\Base\BaseController as Controller;
+
+$baseController = new Controller();
+$actionController = $baseController->setActionName('User')->getController();
+if($actionController->getIsLoggedIn()) {
+    $actionController->getRedirect();
 }
+include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.'Admin/Parts/head.php';
+
 ?>
-<form action="./app/" method="post" name="login">
-    <table>
-        <input type="hidden" name="form_login">
-        <tr>
-            <th>
-                名前
-            </th>
-            <td>
-                <input type="name" name="name" value="">
-            </td>
-        </tr>
-        <tr>
-            <th>
-                パスワード
-            </th>
-            <td>
-                <input type="password" name="password" value="">
-            </td>
-        </tr>
-    </table>
-    <input type="submit" name="submit" value="ログイン">
-</form>
+<script src="<?php echo WEB_TOOL__MASTER_CUSTOM__ROOT_PATH; ?>admin/vendors/jquery/dist/jquery.min.js"></script>
+
+<body class="login">
+    <div>
+        <a class="hiddenanchor" id="signup"></a>
+        <a class="hiddenanchor" id="signin"></a>
+
+        <?php
+        include $actionController->setDisplayName()->setRenderView('index.html.php')->getRenderView();
+        ?>
+    </div>
+</body>

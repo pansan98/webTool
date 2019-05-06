@@ -3,6 +3,7 @@ namespace src\Mod\Controller\Base;
 
 use src\Mod\Controller\Controller;
 use src\Mod\Controller\Capture\CaptureController;
+use src\Mod\Controller\User\UserController;
 use src\App\AppHelper\Controller\ControllerHelper;
 
 class BaseController extends Controller {

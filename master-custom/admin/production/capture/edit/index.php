@@ -30,6 +30,9 @@ include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.'Admin/Parts/head.php';
           <div class="right_col" role="main">
               <div class="">
                   <div class="page-title">
+                      <span class="input-group-btn">
+                        <button onclick="redirectBack();" class="btn btn-default" type="button" style="float: right;">Back</button>
+                      </span>
                       <div class="title_left">
                           <h3><?php echo $actionController->getActionName(); ?></h3>
                       </div>
@@ -81,5 +84,11 @@ include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.'Admin/Parts/head.php';
     </div>
 
     <?php include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.'Admin/Parts/common_js.php'; ?>
+
+ <script type="text/javascript">
+     function redirectBack() {
+         window.location = window.location+'../';
+    }
+ </script>
   </body>
 </html>
