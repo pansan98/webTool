@@ -19,6 +19,8 @@ class UserModel extends BaseModel{
 
     protected $_where = [];
 
+    private $_form = [];
+
     public function __construct()
     {
         $this->_modelHelper = ModelHelper::getInstance();
@@ -71,12 +73,13 @@ class UserModel extends BaseModel{
     {
         $this->_modelHelper->setDbTableName($this->_db_table)->setSQLStatement(WEB_TOOL__SQL__STATEMENT_INSERT);
         foreach ($formData as $keyForm => $valForm) {
-            if($keyForm == 'user_password') {
+            if($keyForm == "user_password") {
                 $valForm = password_hash($valForm, PASSWORD_DEFAULT);
             }
-            if($keyForm != 'user_form_status' || $keyForm != 'display') {
+            if($keyForm != "user_form_status" && $keyForm != "display") {
                 $this->_modelHelper->setAddWhere($keyForm, $valForm);
             }
+            $this->_form[$keyForm] = $valForm;
         }
 
         $this->_where = $this->_modelHelper->getWhere();
@@ -89,7 +92,43 @@ class UserModel extends BaseModel{
             return parent::setDbSaveWhere($where);
         }
         parent::setDbSaveWhere($where);
+
+        // 新規登録後ログイン処理
+        $this->getLogin();
         return true;
+    }
+
+    public function getLogin()
+    {
+        $this->_modelHelper->setDbTableName($this->_db_table)->setSQLStatement(WEB_TOOL__SQL__STATEMENT_SELECT);
+        $this->_modelHelper->setAddWhere('user_id', $this->_form['user_id']);
+        $this->_modelHelper->setAddWhere('user_password', $this->_form['user_password']);
+
+        $this->_where = $this->_modelHelper->getWhere();
+        $data = $this->setDbSaveWhere($this->_where);
+        $ret = [];
+        if(isset($data)) {
+            // モデルをセット
+            $this->setModel();
+            for($i = 0; $i < count($data);$i++) {
+                foreach ($data[$i] as $functionKey => $functionValue) {
+                    $functionCreate = "";
+                    $functionCreate = "set".$this->_modelHelper->getCamelCase($functionKey);
+                    // 各プロパティにセット
+                    if(method_exists($this->_userModel, $functionCreate)) {
+                        $this->_userModel->$functionCreate($functionValue);
+                    }
+                }
+                // 格納したオブジェクトを取得
+                $ret[$i] = $this->_userModel->getModel();
+            }
+        }
+        return $ret;
+    }
+
+    protected function setModel()
+    {
+        $this->_userModel = new Model();
     }
 }
 ?>

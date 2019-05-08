@@ -48,6 +48,11 @@ class Model extends UserModel {
         return $this->_user_name;
     }
 
+    public function getModel()
+    {
+        return $this;
+    }
+
     protected function setUserId($id)
     {
         $this->_user_id = $id;

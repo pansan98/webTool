@@ -8,19 +8,19 @@
               <div>
                 <input type="text" class="form-control" name="user_id" placeholder="User id" required="" value="<?php echo isset($formError['user_id'])?$formError['user_id']:'' ; ?>" />
                   <?php if(isset($formError['error']['user_id'])): ?>
-                  <p>必須項目です。</p>
+                  <p><?php echo $formError['error']['user_id']; ?></p>
                   <?php endif;?>
               </div>
                 <div>
                     <input type="text" name="user_password" class="form-control" placeholder="User Password" required="" value="<?php echo isset($formError['user_password'])?$formError['user_password']:'' ; ?>" />
                     <?php if(isset($formError['error']['user_password'])): ?>
-                        <p>必須項目です。</p>
+                        <p><?php echo $formError['error']['user_password']; ?></p>
                     <?php endif;?>
                 </div>
               <div>
                 <input type="email" name="user_name" class="form-control" placeholder="User Name" required="" value="<?php echo isset($formError['user_name'])?$formError['user_name']:'' ; ?>" />
                   <?php if(isset($formError['error']['user_name'])): ?>
-                      <p>必須項目です。</p>
+                      <p><?php echo $formError['error']['user_name']; ?></p>
                   <?php endif;?>
               </div>
               <div>
@@ -75,7 +75,7 @@
          $.ajax({
              "url":"app/ajax/User/ajax-form.php",
              "type":"post",
-             "data":{"user_id":userId, "user_password":userPass, "user_name":userName,"user_form_status":true , "display":display}
+             "data":{"user_id":userId, "user_password":userPass, "user_name":userName, "user_form_status":true, "display":display}
          }).done(function(response) {
              removeLoading();
              $('.login_wrapper').html(response);

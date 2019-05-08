@@ -8,6 +8,12 @@ class ControllerHelper extends AppControllerHelper{
 
     private $_displayName = [];
 
+    private $_arrParam = [
+        "user_id" => "ユーザーID",
+        "user_password" => "ユーザーパスワード",
+        "user_name" => "ユーザーネーム"
+    ];
+
     private function __construct()
     {
         $this->_displayName = ["Admin", "Front"];
@@ -92,7 +98,7 @@ class ControllerHelper extends AppControllerHelper{
         $arrPost = [];
         foreach ($post as $key => $val) {
             if($val == "") {
-                $arrPost['error'][$key] = $key.'の入力をしてください。';
+                $arrPost['error'][$key] = $this->getAddParam($key).'の入力をしてください。';
             }
             if(is_array($val)) {
                 $this->getForm($val);
@@ -102,6 +108,11 @@ class ControllerHelper extends AppControllerHelper{
         }
 
         return $arrPost;
+    }
+
+    protected function getAddParam($key)
+    {
+        return $this->_arrParam[$key];
     }
 }
 ?>
