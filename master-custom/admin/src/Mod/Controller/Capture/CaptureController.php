@@ -161,7 +161,7 @@ class CaptureController extends BaseController {
                 'capture_copy' => $this->_ssUrl,
                 'capture_filename' => $this->_fileName,
                 'user_id' => 1,
-                'capture_created' => date('Y-m-d')
+                'capture_created' => date('Y-m-d H:i:s')
             ];
 
         $this->_model->isRunSaves($saves);

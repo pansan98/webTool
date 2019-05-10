@@ -1,26 +1,26 @@
  <div id="register" class="animate login_form">
-     <?php if(isset($formError['error'])):?>
+     <?php if(isset($form['error'])):?>
         <p>入力にエラーがあります。</p>
      <?php endif; ?>
           <section class="login_content">
             <form name="create_form">
               <h1>Create Account</h1>
               <div>
-                <input type="text" class="form-control" name="user_id" placeholder="User id" required="" value="<?php echo isset($formError['user_id'])?$formError['user_id']:'' ; ?>" />
-                  <?php if(isset($formError['error']['user_id'])): ?>
-                  <p><?php echo $formError['error']['user_id']; ?></p>
+                <input type="text" class="form-control" name="user_id" placeholder="User id" required="" value="<?php echo isset($form['user_id'])?$form['user_id']:'' ; ?>" />
+                  <?php if(isset($form['error']['user_id'])): ?>
+                  <p><?php echo $form['error']['user_id']; ?></p>
                   <?php endif;?>
               </div>
                 <div>
-                    <input type="text" name="user_password" class="form-control" placeholder="User Password" required="" value="<?php echo isset($formError['user_password'])?$formError['user_password']:'' ; ?>" />
-                    <?php if(isset($formError['error']['user_password'])): ?>
-                        <p><?php echo $formError['error']['user_password']; ?></p>
+                    <input type="text" name="user_password" class="form-control" placeholder="User Password" required="" value="<?php echo isset($form['user_password'])?$form['user_password']:'' ; ?>" />
+                    <?php if(isset($form['error']['user_password'])): ?>
+                        <p><?php echo $form['error']['user_password']; ?></p>
                     <?php endif;?>
                 </div>
               <div>
-                <input type="email" name="user_name" class="form-control" placeholder="User Name" required="" value="<?php echo isset($formError['user_name'])?$formError['user_name']:'' ; ?>" />
-                  <?php if(isset($formError['error']['user_name'])): ?>
-                      <p><?php echo $formError['error']['user_name']; ?></p>
+                <input type="email" name="user_name" class="form-control" placeholder="User Name" required="" value="<?php echo isset($form['user_name'])?$form['user_name']:'' ; ?>" />
+                  <?php if(isset($form['error']['user_name'])): ?>
+                      <p><?php echo $form['error']['user_name']; ?></p>
                   <?php endif;?>
               </div>
               <div>
@@ -47,13 +47,16 @@
       </div>
 
  <script type="text/javascript">
+     const ajaxUrl = "app/ajax/User/ajax-form.php";
+     const ajaxDisplayUrl = "app/ajax/User/ajax-display.php";
+
      function changeDisplay(display) {
          setLoading();
          sendChangeDisplay(display);
 
          function sendChangeDisplay(display) {
              $.ajax({
-                 "url":"app/ajax/User/ajax-display.php",
+                 "url":ajaxDisplayUrl,
                  "type":"post",
                  "data":{"display":display}
              }).done(function(response) {
@@ -66,20 +69,22 @@
      }
 
      function sendForm(display) {
-         var userId = document.create_form.user_id.value;
-         var userPass = document.create_form.user_password.value;
-         var userName = document.create_form.user_name.value;
+         let userId = document.create_form.user_id.value;
+         let userPass = document.create_form.user_password.value;
+         let userName = document.create_form.user_name.value;
 
          setLoading();
 
          $.ajax({
-             "url":"app/ajax/User/ajax-form.php",
+             "url":ajaxUrl,
              "type":"post",
              "data":{"user_id":userId, "user_password":userPass, "user_name":userName, "user_form_status":true, "display":display}
          }).done(function(response) {
              removeLoading();
              $('.login_wrapper').html(response);
          }).fail(function(xhr, errorThrow, textStatus) {
+             alert(errorThrow);
+             alert(textStatus);
              removeLoading();
          });
      }

@@ -10,7 +10,7 @@ if(isset($_POST['user_form_status'])) {
         if($_POST["display"] == "create") {
             $status = $actionController->setDbUserSaves($_POST);
             if(isset($status['error'])){
-                $formError = $status;
+                $form = $status;
                 include $actionController->setDisplayName()->setRenderView($_POST['display'].'.html.php')->getRenderView();
             } else {
                 $actionController->getRedirect();
@@ -18,7 +18,7 @@ if(isset($_POST['user_form_status'])) {
         } elseif($_POST["display"] == "login") {
             $status = $actionController->setDbUserSaves($_POST);
             if(isset($status['error'])){
-                $formError = $status;
+                $form = $status;
                 include $actionController->setDisplayName()->setRenderView($_POST['display'].'.html.php')->getRenderView();
             } else {
                 $actionController->getRedirect();
