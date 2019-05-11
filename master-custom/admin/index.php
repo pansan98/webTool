@@ -20,7 +20,7 @@ include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.'Admin/Parts/head.php';
         <a class="hiddenanchor" id="signin"></a>
 
         <?php
-        include $actionController->setDisplayName()->setRenderView('index.html.php')->getRenderView();
+            include $actionController->setDisplayName()->setRenderView('index.html.php')->getRenderView();
         ?>
     </div>
 </body>

@@ -1,17 +1,19 @@
 <?php
 namespace src\App\Form;
 
-use src\App\AppHelper\Controller\ControllerHelper;
+use src\App\Form\ValidateHelper;
+use src\App\Message\MessageHelper;
 
 class FormHelper {
     protected static $instanceHelper;
-
-    protected $_validate;
+    protected $_validateHelper;
+    protected $_messageHelper;
 
     protected $_init = [];
 
     private function __construct()
     {
+        $this->_validateHelper = ValidateHelper::getInstance();
     }
 
     public static function getInstance()
@@ -25,26 +27,74 @@ class FormHelper {
 
     /**
      * @param $key
+     * @param $name
      * @param array $validateKey ['require', 'sample']
      */
-    public function setValidate($key, array $validateKey)
+    public function setValidate($key, $name,  array $validateKey)
     {
-        $this->_validate[$key] = $validateKey;
+        $this->_validateHelper->setValidate($key, $name, $validateKey);
 
         return $this;
     }
 
-    protected function getValidate()
+    public function getValidate($key)
     {
-        return $this->_validate;
+        return $this->_validateHelper->getValidate($key);
     }
 
     public function setFormFactory(array $factory)
     {
-        foreach ($factory as $key => $validate) {
-            $this->setValidate($key, $validate);
+        $validateError = [];
+        foreach ($factory as $key => $val) {
+            $validate =[];
+            $validate = $this->getValidate($key);
+            if(!is_null($validate[$key])) {
+                for($i = 0; $i <= count($validate[$key]); $i++) {
+                    switch($validate[$key][$i]) {
+                        case 'require':
+                            if($this->_validateHelper->factoryRequire($val)) {
+                                if(!isset($validateError[$key]['error'])) {
+                                    $validateError[$key]['error'] = $validate[$key]['name'].'の'.$this->_messageHelper->getEngineFactory()->getMessageFactory($validate[$key][$i]);
+                                }
+                            }
+                            break;
+                        case 'length':
+                            if($this->_validateHelper->factoryLength($val, $validate[$key]['length'])) {
+                                if(!isset($validateError[$key]['error'])) {
+                                    $validateError[$key]['error'] = $validateError[$key]['name'].'は'.$validateError[$key]['length'].$this->_messageHelper->getEngineFactory()->getMessageFactory($validate[$key][$i]);
+                                }
+                            }
+                            break;
+                        case 'character':
+                            if($this->_validateHelper->factoryRomanCharacter($val)) {
+                                if(!isset($validateError[$key]['error'])) {
+                                    $validateError[$key]['error'] = $validateError[$key]['name'].'は'.$this->_messageHelper->getEngineFactory()->getMessageFactory($validate[$key][$i]);
+                                }
+                            }
+                            break;
+                        case 'numeric':
+                            if($this->_validateHelper->factoryNumeric($val)) {
+                                if(!isset($validateError[$key]['error'])) {
+                                    $validateError[$key]['error'] = $validateError[$key]['name'].'は'.$this->_messageHelper->getEngineFactory()->getMessageFactory($validate[$key][$i]);
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
         }
+
+        return $validateError;
     }
+
+
+    public function createMessageFactory($engine)
+    {
+        $this->_messageHelper = MessageHelper::getEngine($engine);
+        $this->_messageHelper->getEngineFactory()->createMessageFactory();
+    }
+
+
 
 }
 ?>

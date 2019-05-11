@@ -1,7 +1,7 @@
 <?php
 namespace src\App\Form;
 
-use src\App\AppHelper\Controller\ControllerHelper;
+use src\App\Message\MessageHelper;
 
 class ValidateHelper {
     protected static $instanceHelper;
@@ -25,26 +25,69 @@ class ValidateHelper {
 
     /**
      * @param $key
+     * @param $name multi-byte
      * @param array $validateKey ['require', 'sample']
      */
-    public function setValidate($key, array $validateKey)
+    public function setValidate($key, $name, array $validateKey, $len = "")
     {
         $this->_validate[$key] = $validateKey;
+        $this->_validate[$key]['name'] = $name;
+        $this->_validate[$key]['length'] = $len;
 
         return $this;
     }
 
-    protected function getValidate()
+    public function getValidate($key)
     {
-        return $this->_validate;
+        return $this->_validate[$key];
     }
 
     public function setFormFactory(array $factory)
     {
         foreach ($factory as $key => $validate) {
-            $this->setValidate($key, $validate);
+            $this->setValidate($key, $factory[$key]['name'], $validate);
         }
     }
 
+    public function factoryRequire($require)
+    {
+        $error = false;
+        if($require == "") {
+            $error = true;
+        }
+
+        return $error;
+    }
+
+    public function factoryLength($string, $len)
+    {
+        $error = false;
+        if(mb_strlen($string, 'UTF-8') > $len) {
+            $error = true;
+        }
+
+        return $error;
+    }
+
+    public function factoryRomanCharacter($character)
+    {
+        $error = false;
+        $pattern = "/^([a-zA-Z0-9_-])$";
+        if(!preg_match($pattern, $character)) {
+            $error = true;
+        }
+
+        return $error;
+    }
+
+    public function factoryNumeric($num)
+    {
+        $error = false;
+        if(!is_numeric($num)) {
+            $error = true;
+        }
+
+        return $error;
+    }
 }
 ?>
