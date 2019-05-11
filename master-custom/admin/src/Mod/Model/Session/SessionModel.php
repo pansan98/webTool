@@ -21,7 +21,11 @@ class SessionModel extends Model{
     public static function getInstance()
     {
         if(!self::$sessionInstance instanceof SessionModel) {
-            self::$sessionInstance = new static($_SESSION);
+            $session = [];
+            if(isset($_SESSION['user'])) {
+                $session = $_SESSION['user'];
+            }
+            self::$sessionInstance = new static($session);
         }
 
         return self::$sessionInstance;
@@ -72,6 +76,11 @@ class SessionModel extends Model{
         }
 
         $this->setSession('redirect_url', $referer);
+    }
+
+    public function setGlobalSessionKey($key)
+    {
+        parent::setGlobalSessionKey($key);
     }
 
 }

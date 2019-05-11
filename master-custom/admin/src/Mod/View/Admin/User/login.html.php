@@ -76,7 +76,6 @@
          }).done(function(response) {
              removeLoading();
              if(response == true) {
-                 alert('ログインに成功しました。');
                  window.location.href = './production/';
              }
              $('.login_wrapper').html(response);

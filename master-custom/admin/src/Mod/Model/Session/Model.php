@@ -6,6 +6,8 @@ class Model {
     protected $_session = [];
     protected static $instance;
 
+    private $_globalSessionKey;
+
     public function __construct()
     {
 
@@ -27,9 +29,7 @@ class Model {
      */
     protected function setAllSession(array $session)
     {
-        foreach ($session as $key => $val) {
-            $this->_session[$key] = $val;
-        }
+        $this->_session = $session;
     }
 
     protected function getAllSession()
@@ -39,29 +39,40 @@ class Model {
 
     protected function setSession($key, $value)
     {
-        if(isset($this->_session[$key])) {
-            unset($this->_session[$key]);
+        if(isset($this->_session[$this->getGlobalSessionKey()][$key])) {
+            unset($this->_session[$this->getGlobalSessionKey()][$key]);
         }
-        $this->_session[$key] = $value;
+        $this->_session[$this->getGlobalSessionKey()][$key] = $value;
         $this->setGlobalSession($key, $value);
     }
 
     public function getSession($key)
     {
-        if(isset($this->_session[$key])) {
-            return $this->_session[$key];
-        } else {
-            return "";
+        if(isset($this->_session[$this->getGlobalSessionKey()][$key])) {
+            return $this->_session[$this->getGlobalSessionKey()][$key];
         }
+
+        return "";
     }
 
     private function setGlobalSession($key, $value)
     {
-        if(isset($_SESSION[$key])) {
-            unset($_SESSION[$key]);
+        if(isset($_SESSION[$this->getGlobalSessionKey()][$key])) {
+            unset($_SESSION[$this->getGlobalSessionKey()][$key]);
         }
 
-        $_SESSION[$key] = $value;
+        $_SESSION[$this->getGlobalSessionKey()][$key] = $value;
     }
+
+    protected function setGlobalSessionKey($key)
+    {
+        $this->_globalSessionKey = $key;
+    }
+
+    private function getGlobalSessionKey()
+    {
+        return $this->_globalSessionKey;
+    }
+
 }
 ?>

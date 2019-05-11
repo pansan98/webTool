@@ -26,6 +26,7 @@ class UserModel extends BaseModel{
         $this->_modelHelper = ModelHelper::getInstance();
         //$this->_userModel = new Model();
         $this->_sessionModel = SessionModel::getInstance();
+        $this->_sessionModel->setGlobalSessionKey('user');
         if($this->_sessionModel->getSession('user_id') != "") {
             $this->_isLogged = true;
         }
@@ -133,12 +134,12 @@ class UserModel extends BaseModel{
             }
             if(password_verify($this->_form['user_password'], $this->_userModel->getUserPassword())) {
                 // 必要なものをセッションに保存
+                $this->_sessionModel->setGlobalSessionKey('user');
                 $this->_sessionModel->setSession('user_id', $this->_userModel->getUserId())
                     ->setSession('user_name', $this->_userModel->getUserName())
                     ->setSession('user_last_login', $this->_userModel->getUserLastLogin())
                     ->setSession('user_room_id', $this->_userModel->getUserRoomId());
 
-                $this->_sessionModel->getRedirect();
             } else {
                 $ret['error']['user_password'] = 'パスワードが間違っています。';
             }
