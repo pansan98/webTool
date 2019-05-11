@@ -24,11 +24,12 @@ class ValidateHelper {
     }
 
     /**
-     * @param $key
-     * @param $name multi-byte
+     * @param string $key
+     * @param string $name multi-byte
      * @param array $validateKey ['require', 'sample']
+     * @param integer $len
      */
-    public function setValidate($key, $name, array $validateKey, $len = "")
+    public function setValidate($key, $name, array $validateKey, $len = 9999)
     {
         $this->_validate[$key] = $validateKey;
         $this->_validate[$key]['name'] = $name;
