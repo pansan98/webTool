@@ -5,6 +5,7 @@ namespace src\Mod\Controller\User;
 use src\Mod\Controller\Base\BaseController;
 use src\Mod\Model\User\UserModel;
 use src\App\AppHelper\Controller\ControllerHelper;
+use src\App\Form;
 
 class UserController extends BaseController {
     public static $instance;
@@ -39,7 +40,7 @@ class UserController extends BaseController {
 
     public function getRedirect()
     {
-        $this->_model->getRedirect();
+        return $this->_model->getRedirect();
     }
 
     public function redirectShowLoginScreen()
@@ -98,7 +99,17 @@ class UserController extends BaseController {
             return $formData;
         }
 
-        return $this->_model->setDbUserSaves($formData);
+        if($formData['display'] == 'create') {
+            return $this->_model->setDbUserSaves($formData);
+        } elseif($formData['display'] == 'login') {
+            $login = $this->_model->setLogin($formData)->getLogin();
+            if(isset($login['error'])) {
+                $login = array_merge($login, $formData);
+                return $login;
+            } else {
+                return true;
+            }
+        }
     }
 }
 ?>

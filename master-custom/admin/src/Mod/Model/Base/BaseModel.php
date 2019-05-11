@@ -82,14 +82,14 @@ class BaseModel extends Model {
                 $sqlStmt .= " WHERE ";
                 foreach ($where['where'] as $keys => $value) {
                     if($value === end($where['where'])) {
-                        $sqlStmt .= $keys.'='.$value;
+                        $sqlStmt .= $keys.'= :'.$keys;
                     } else {
-                        $sqlStmt .= $keys.'='.$value.' AND ';
+                        $sqlStmt .= $keys.'= :'.$keys.' AND ';
                     }
                 }
             }
             $stmtString = $sqlStmt;
-            $where['where'] = [];
+            //$where['where'] = [];
         }
 
         try {

@@ -6,12 +6,12 @@ use src\Mod\Model\Session\Model;
 
 //session_start();
 
-class SessionModel extends BaseModel{
+class SessionModel extends Model{
 
     protected static $sessionInstance;
     protected static $sessionModelInstance;
 
-    protected function __construct($session)
+    public function __construct($session)
     {
         $this->setModelInstance();
         self::$sessionModelInstance->setAllSession($session);
@@ -34,7 +34,7 @@ class SessionModel extends BaseModel{
         }
     }
 
-    protected function setAllSession(array $session)
+    public function setAllSession(array $session)
     {
         self::$sessionModelInstance->setAllSession($session);
 
@@ -46,7 +46,7 @@ class SessionModel extends BaseModel{
         return self::$sessionModelInstance->getAllSession();
     }
 
-    protected function setSession($key, $value)
+    public function setSession($key, $value)
     {
         self::$sessionModelInstance->setSession($key, $value);
 

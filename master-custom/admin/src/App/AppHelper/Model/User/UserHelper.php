@@ -1,14 +1,13 @@
 <?php
-namespace src\App\AppHelper\Model;
+namespace src\App\AppHelper\Model\User;
 
-use src\App\AppHelper\AppModelHelper;
+use src\App\AppHelper\Model\ModelHelper;
 
-class ModelHelper extends AppModelHelper{
+class UserHelper extends ModelHelper{
     protected static $instanceHelper;
 
     protected $_sqlStatementStatus;
     protected $_where = [];
-    protected $_select = [];
     protected $_db_table;
 
     private function __construct()
@@ -18,7 +17,7 @@ class ModelHelper extends AppModelHelper{
 
     public static function getInstance()
     {
-        if(!self::$instanceHelper instanceof ModelHelper) {
+        if(!self::$instanceHelper instanceof UserHelper) {
             self::$instanceHelper = new static();
         }
 
@@ -32,10 +31,10 @@ class ModelHelper extends AppModelHelper{
         return $this;
     }
 
-    public function setQueryBuilder($statement)
+    public function setSQLStatement($statement)
     {
         $this->_sqlStatementStatus = $statement;
-        $this->_where['statement'] = $this->getQueryBuilder($statement);
+        $this->_where['statement'] = $this->getSQLStatement($statement);
 
         return $this;
     }
@@ -65,30 +64,12 @@ class ModelHelper extends AppModelHelper{
         return $this->_where;
     }
 
-    public function setSelect($select)
-    {
-        $this->_select[] = $select;
-
-        return $this;
-    }
-
-    public function getSelect()
-    {
-        return $this->_select;
-    }
-
-    // Add first if you want to select
-    private function getQueryBuilder($statement)
+    private function getSQLStatement($statement)
     {
         $sql = "";
         switch($statement) {
             case WEB_TOOL__SQL__STATEMENT_SELECT:
-                if(isset($this->_select) AND count($this->_select)) {
-                    $selectSql = implode(',', $this->getSelect());
-                    $sql = "SELECT ".$selectSql." FROM ".$this->_db_table;
-                } else {
-                    $sql = "SELECT * FROM ".$this->_db_table;
-                }
+                $sql = "SELECT * FROM ".$this->_db_table;
                 break;
             case WEB_TOOL__SQL__STATEMENT_UPDATE:
                 $sql = "UPDATE SET".$this->_db_table;

@@ -65,13 +65,13 @@ class UserModel extends BaseModel{
         } else {
             $redirectUrl = $this->_sessionModel->getRedirect();
         }
-        header('Location:'.$redirectUrl);
+        header('Location: '.$redirectUrl);
         exit;
     }
 
     public function setDbUserSaves($formData)
     {
-        $this->_modelHelper->setDbTableName($this->_db_table)->setSQLStatement(WEB_TOOL__SQL__STATEMENT_INSERT);
+        $this->_modelHelper->setDbTableName($this->_db_table)->setQueryBuilder(WEB_TOOL__SQL__STATEMENT_INSERT);
         foreach ($formData as $keyForm => $valForm) {
             if($keyForm == "user_password") {
                 $valForm = password_hash($valForm, PASSWORD_DEFAULT);
@@ -81,6 +81,7 @@ class UserModel extends BaseModel{
             }
             $this->_form[$keyForm] = $valForm;
         }
+        $this->_modelHelper->setAddWhere('user_created', date('Y-m-d H:i:s'));
 
         $this->_where = $this->_modelHelper->getWhere();
         return $this->setDbSaveWhere($this->_where);
@@ -94,34 +95,55 @@ class UserModel extends BaseModel{
         parent::setDbSaveWhere($where);
 
         // 新規登録後ログイン処理
-        $this->getLogin();
+        //$this->getLogin();
         return true;
     }
 
     public function getLogin()
     {
-        $this->_modelHelper->setDbTableName($this->_db_table)->setSQLStatement(WEB_TOOL__SQL__STATEMENT_SELECT);
-        $this->_modelHelper->setAddWhere('user_id', $this->_form['user_id']);
-        $this->_modelHelper->setAddWhere('user_password', $this->_form['user_password']);
+
+        // add select
+        $this->_modelHelper->setSelect('user_id')
+            ->setSelect('user_password')
+            ->setSelect('user_name')
+            ->setSelect('user_room_id')
+            ->setSelect('user_last_login');
+
+        $this->_modelHelper->setDbTableName($this->_db_table)->setQueryBuilder(WEB_TOOL__SQL__STATEMENT_SELECT);
+
+        // add where
+        $this->_modelHelper->setAddWhere('user_id', $this->_form['user_id'])
+            ->setAddWhere('user_deleted', 0);
 
         $this->_where = $this->_modelHelper->getWhere();
         $data = $this->setDbSaveWhere($this->_where);
         $ret = [];
-        if(isset($data)) {
+        if(isset($data) AND count($data) > 0) {
             // モデルをセット
             $this->setModel();
             for($i = 0; $i < count($data);$i++) {
                 foreach ($data[$i] as $functionKey => $functionValue) {
                     $functionCreate = "";
-                    $functionCreate = "set".$this->_modelHelper->getCamelCase($functionKey);
+                    $functionCreate = "set".$this->_modelHelper->createCamelCase($functionKey);
                     // 各プロパティにセット
                     if(method_exists($this->_userModel, $functionCreate)) {
                         $this->_userModel->$functionCreate($functionValue);
                     }
                 }
-                // 格納したオブジェクトを取得
-                $ret[$i] = $this->_userModel->getModel();
             }
+            if(password_verify($this->_form['user_password'], $this->_userModel->getUserPassword())) {
+                // 必要なものをセッションに保存
+                $this->_sessionModel->setSession('user_id', $this->_userModel->getUserId())
+                    ->setSession('user_name', $this->_userModel->getUserName())
+                    ->setSession('user_last_login', $this->_userModel->getUserLastLogin())
+                    ->setSession('user_room_id', $this->_userModel->getUserRoomId());
+
+                $this->_sessionModel->getRedirect();
+            } else {
+                $ret['error']['user_password'] = 'パスワードが間違っています。';
+            }
+        } else {
+            $ret['error']['user_id'] = 'ユーザーIDが存在しません。';
         }
         return $ret;
     }
@@ -129,6 +151,15 @@ class UserModel extends BaseModel{
     protected function setModel()
     {
         $this->_userModel = new Model();
+    }
+
+    public function setLogin(array $form)
+    {
+        foreach ($form as $keyForm => $valForm) {
+            $this->_form[$keyForm] = $valForm;
+        }
+
+        return $this;
     }
 }
 ?>

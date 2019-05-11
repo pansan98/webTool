@@ -1,7 +1,7 @@
 <?php
 namespace src\Mod\Model\Session;
 
-class Model extends SessionModel {
+class Model {
 
     protected $_session = [];
     protected static $instance;
@@ -43,6 +43,7 @@ class Model extends SessionModel {
             unset($this->_session[$key]);
         }
         $this->_session[$key] = $value;
+        $this->setGlobalSession($key, $value);
     }
 
     public function getSession($key)
@@ -52,6 +53,15 @@ class Model extends SessionModel {
         } else {
             return "";
         }
+    }
+
+    private function setGlobalSession($key, $value)
+    {
+        if(isset($_SESSION[$key])) {
+            unset($_SESSION[$key]);
+        }
+
+        $_SESSION[$key] = $value;
     }
 }
 ?>

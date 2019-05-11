@@ -6,22 +6,22 @@
             <form name="create_form">
               <h1>Create Account</h1>
               <div>
-                <input type="text" class="form-control" name="user_id" placeholder="User id" required="" value="<?php echo isset($form['user_id'])?$form['user_id']:'' ; ?>" />
                   <?php if(isset($form['error']['user_id'])): ?>
-                  <p><?php echo $form['error']['user_id']; ?></p>
+                      <p><?php echo $form['error']['user_id']; ?></p>
                   <?php endif;?>
+                <input type="text" class="form-control" name="user_id" placeholder="User id" required="" value="<?php echo isset($form['user_id'])?$form['user_id']:'' ; ?>" />
               </div>
                 <div>
-                    <input type="text" name="user_password" class="form-control" placeholder="User Password" required="" value="<?php echo isset($form['user_password'])?$form['user_password']:'' ; ?>" />
                     <?php if(isset($form['error']['user_password'])): ?>
                         <p><?php echo $form['error']['user_password']; ?></p>
                     <?php endif;?>
+                    <input type="text" name="user_password" class="form-control" placeholder="User Password" required="" value="<?php echo isset($form['user_password'])?$form['user_password']:'' ; ?>" />
                 </div>
               <div>
-                <input type="email" name="user_name" class="form-control" placeholder="User Name" required="" value="<?php echo isset($form['user_name'])?$form['user_name']:'' ; ?>" />
                   <?php if(isset($form['error']['user_name'])): ?>
                       <p><?php echo $form['error']['user_name']; ?></p>
                   <?php endif;?>
+                <input type="text" name="user_name" class="form-control" placeholder="User Name" required="" value="<?php echo isset($form['user_name'])?$form['user_name']:'' ; ?>" />
               </div>
               <div>
                 <a class="btn btn-default submit" href="javascript:void(0);" onclick="sendForm('create');">Create</a>

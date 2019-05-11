@@ -6,16 +6,16 @@
             <form name="login_form">
               <h1>Login Form</h1>
               <div>
-                <input type="text" name="user_id" class="form-control" placeholder="User id" required="" value="<?php echo isset($form['user_id'])?$form['user_id']:'' ; ?>"/>
                   <?php if(isset($form['error']['user_id'])): ?>
                       <p><?php echo $form['error']['user_id']; ?></p>
                   <?php endif;?>
+                <input type="text" name="user_id" class="form-control" placeholder="User id" required="" value="<?php echo isset($form['user_id'])?$form['user_id']:'' ; ?>"/>
               </div>
               <div>
-                <input type="password" name="user_password" class="form-control" placeholder="User Password" required="" value="<?php echo isset($form['user_password'])?$form['user_password']:'' ; ?>"/>
                   <?php if(isset($form['error']['user_password'])): ?>
                       <p><?php echo $form['error']['user_password']; ?></p>
                   <?php endif;?>
+                <input type="password" name="user_password" class="form-control" placeholder="User Password" required="" value="<?php echo isset($form['user_password'])?$form['user_password']:'' ; ?>"/>
               </div>
               <div>
                 <a class="btn btn-default submit" href="javascript:void(0);" onclick="sendForm('login');">Log in</a>
@@ -54,9 +54,10 @@
                  "data":{"display":display}
              }).done(function(response) {
                  removeLoading();
-                 console.log(response);
                  $('.login_wrapper').html(response);
              }).fail(function(xhr, errorThrow, textStatus) {
+                 alert(errorThrow);
+                 alert(textStatus);
                  removeLoading();
              });
          }
@@ -74,6 +75,10 @@
              "data":{"user_id":userId, "user_password":userPass, "user_form_status":true, "display":display}
          }).done(function(response) {
              removeLoading();
+             if(response == true) {
+                 alert('ログインに成功しました。');
+                 window.location.href = './production/';
+             }
              $('.login_wrapper').html(response);
          }).fail(function(xhr, errorThrow, textStatus) {
              alert(errorThrow);

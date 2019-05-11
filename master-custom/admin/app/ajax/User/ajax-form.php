@@ -7,22 +7,12 @@ if(isset($_POST['user_form_status'])) {
     $baseController = new controller();
     $actionController = $baseController->setActionName('User')->getController();
     if($_POST['user_form_status']) {
-        if($_POST["display"] == "create") {
-            $status = $actionController->setDbUserSaves($_POST);
-            if(isset($status['error'])){
-                $form = $status;
-                include $actionController->setDisplayName()->setRenderView($_POST['display'].'.html.php')->getRenderView();
-            } else {
-                $actionController->getRedirect();
-            }
-        } elseif($_POST["display"] == "login") {
-            $status = $actionController->setDbUserSaves($_POST);
-            if(isset($status['error'])){
-                $form = $status;
-                include $actionController->setDisplayName()->setRenderView($_POST['display'].'.html.php')->getRenderView();
-            } else {
-                $actionController->getRedirect();
-            }
+        $status = $actionController->setDbUserSaves($_POST);
+        if(isset($status['error'])){
+            $form = $status;
+            include $actionController->setDisplayName()->setRenderView($form['display'].'.html.php')->getRenderView();
+        } else {
+            echo true;
         }
     }
 }
