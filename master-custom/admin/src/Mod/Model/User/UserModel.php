@@ -26,7 +26,9 @@ class UserModel extends BaseModel{
         $this->_modelHelper = ModelHelper::getInstance();
         //$this->_userModel = new Model();
         $this->_sessionModel = SessionModel::getInstance();
+        // グローバルキーを設定
         $this->_sessionModel->setGlobalSessionKey('user');
+        $this->_sessionModel->setRedirect();
         if($this->_sessionModel->getSession('user_id') != "") {
             $this->_isLogged = true;
         }
@@ -53,15 +55,18 @@ class UserModel extends BaseModel{
         return $this->_isLogged;
     }
 
-    public function redirectShowLoginScreen()
+    public function redirectShowLoginScreen($status)
     {
+        if($status == 0) {
+            return WEB_TOOL__MASTER_CUSTOM__ROOT_PATH.'admin/';
+        }
         header('Location:'.WEB_TOOL__MASTER_CUSTOM__ROOT_PATH.'admin/');
         exit;
     }
 
     public function getRedirect()
     {
-        if(WEB_TOOL__MASTER_CUSTOM__ROOT_PATH.'admin/' === $this->_sessionModel->getRedirect()) {
+        if(WEB_TOOL__MASTER_CUSTOM__ROOT_PATH.'admin/' === $this->_sessionModel->getRedirect() || $this->_sessionModel->getRedirect() == "") {
             $redirectUrl = WEB_TOOL__MASTER_CUSTOM__ROOT_PATH.'admin/production/';
         } else {
             $redirectUrl = $this->_sessionModel->getRedirect();
@@ -161,6 +166,11 @@ class UserModel extends BaseModel{
         }
 
         return $this;
+    }
+
+    public function getLogout()
+    {
+        $this->_sessionModel->getLogout();
     }
 }
 ?>

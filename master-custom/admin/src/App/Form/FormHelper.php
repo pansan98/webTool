@@ -30,7 +30,7 @@ class FormHelper {
      * @param $name
      * @param array $validateKey ['require', 'sample']
      */
-    public function setValidate($key, $name,  array $validateKey, $len = "")
+    public function setValidate($key, $name, array $validateKey, $len = 9999)
     {
         $this->_validateHelper->setValidate($key, $name, $validateKey, $len);
 
@@ -76,6 +76,13 @@ class FormHelper {
                             if($this->_validateHelper->factoryNumeric($val)) {
                                 if(!isset($validateError['error'][$key])) {
                                     $validateError['error'][$key] = $validate['name'].'は'.$this->_messageHelper->getEngineFactory()->getMessageFactory($validate[$key][$i]);
+                                }
+                            }
+                            break;
+                        case 'url':
+                            if($this->_validateHelper->factoryUrl($val)) {
+                                if(!isset($validateError['error'][$key])) {
+                                    $validateError['error'][$key] = $this->_messageHelper->getEngineFactory()->getMessageFactory($validate[$key][$i]);
                                 }
                             }
                             break;

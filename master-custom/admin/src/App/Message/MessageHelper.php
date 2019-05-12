@@ -1,7 +1,7 @@
 <?php
 namespace src\App\Message;
 
-use src\App\Message\User;
+
 
 class MessageHelper {
     protected static $instanceHelper;
@@ -10,8 +10,9 @@ class MessageHelper {
 
     private function __construct($engine)
     {
-        //$this->_engine = $engine::getFactory();
-        $this->_engine = User::getFactory();
+        $engine = "src\\App\\Message\\".$engine;
+        $this->_engine = $engine::getFactory();
+        //$this->_engine = User::getFactory();
     }
 
     protected static function getInstance($engine)

@@ -1,16 +1,16 @@
 <?php
 namespace src\Mod\Model\Session;
 
+
 class Model {
 
     protected $_session = [];
     protected static $instance;
 
-    private $_globalSessionKey;
+    private static $_globalSessionKey;
 
     public function __construct()
     {
-
     }
 
     public static function getInstance()
@@ -66,13 +66,17 @@ class Model {
 
     protected function setGlobalSessionKey($key)
     {
-        $this->_globalSessionKey = $key;
+        self::$_globalSessionKey = $key;
     }
 
     private function getGlobalSessionKey()
     {
-        return $this->_globalSessionKey;
+        return self::$_globalSessionKey;
     }
 
+    public function getLogout()
+    {
+        unset($_SESSION['user']);
+    }
 }
 ?>

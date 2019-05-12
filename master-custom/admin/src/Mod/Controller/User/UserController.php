@@ -6,7 +6,7 @@ use src\Mod\Controller\Base\BaseController;
 use src\Mod\Model\User\UserModel;
 use src\App\AppHelper\Controller\ControllerHelper;
 use src\App\Form\FormHelper;
-use src\AppMessage\MessageHelper;
+use src\App\Message\MessageHelper;
 
 class UserController extends BaseController {
     public static $instance;
@@ -45,9 +45,12 @@ class UserController extends BaseController {
         return $this->_model->getRedirect();
     }
 
-    public function redirectShowLoginScreen()
+    public function redirectShowLoginScreen($status = 1)
     {
-        $this->_model->redirectShowLoginScreen();
+        if($status == 0) {
+            return $this->_model->redirectShowLoginScreen($status);
+        }
+        $this->_model->redirectShowLoginScreen($status);
     }
 
     public function setActionName($name)
@@ -126,6 +129,11 @@ class UserController extends BaseController {
             ->setValidate('user_name', 'ユーザーネーム', ['require']);
 
         $this->_form->createMessageFactory('User');
+    }
+
+    public function getLogout()
+    {
+        $this->_model->getLogout();
     }
 }
 ?>

@@ -29,7 +29,7 @@ class ValidateHelper {
      * @param array $validateKey ['require', 'sample']
      * @param integer $len
      */
-    public function setValidate($key, $name, array $validateKey, $len = 9999)
+    public function setValidate($key, $name, array $validateKey, $len)
     {
         $this->_validate[$key][$key] = $validateKey;
         $this->_validate[$key]['name'] = $name;
@@ -89,6 +89,17 @@ class ValidateHelper {
     {
         $error = false;
         if(!is_numeric($num)) {
+            $error = true;
+        }
+
+        return $error;
+    }
+
+    public function factoryUrl($url)
+    {
+        $error = false;
+        $pattern = '/^(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i';
+        if(!preg_match($pattern, $url)) {
             $error = true;
         }
 

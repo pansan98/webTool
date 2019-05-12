@@ -15,15 +15,15 @@ class SessionModel extends Model{
     {
         $this->setModelInstance();
         self::$sessionModelInstance->setAllSession($session);
-        $this->setRedirect();
+        //$this->setRedirect();
     }
 
     public static function getInstance()
     {
         if(!self::$sessionInstance instanceof SessionModel) {
             $session = [];
-            if(isset($_SESSION['user'])) {
-                $session = $_SESSION['user'];
+            if(isset($_SESSION)) {
+                $session = $_SESSION;
             }
             self::$sessionInstance = new static($session);
         }
@@ -67,7 +67,7 @@ class SessionModel extends Model{
         return $this->getSession('redirect_url');
     }
 
-    protected function setRedirect()
+    public function setRedirect()
     {
         if(isset($_SERVER['HTTP_REFERER'])) {
             $referer = $_SERVER['HTTP_REFERER'];

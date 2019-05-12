@@ -3,27 +3,7 @@
     <h3>User Data</h3>
     <ul class="nav side-menu">
       <li><a href="<?php echo WEB_TOOL__MASTER_CUSTOM__ROOT_PATH; ?>admin/production/"><i class="fa fa-home"></i> Home </a></li>
-      <li><a><i class="fa fa-table"></i> Your <span class="fa fa-chevron-down"></span></a>
-        <ul class="nav child_menu">
-          <li><a href="<?php echo WEB_TOOL__MASTER_CUSTOM__ROOT_PATH; ?>admin/production/Tables/">Your allData</a></li>
-          <li><a href="<?php echo WEB_TOOL__MASTER_CUSTOM__ROOT_PATH; ?>admin/production/Tables/Recommend/">Your Recommend</a></li>
-          <li><a href="<?php echo WEB_TOOL__MASTER_CUSTOM__ROOT_PATH; ?>admin/production/Tables/Follows/">Your Follows</a></li>
-        </ul>
-      </li>
-      <li><a><i class="fa fa-bar-chart-o"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
-        <ul class="nav child_menu">
-          <li><a href="<?php echo WEB_TOOL__MASTER_CUSTOM__ROOT_PATH; ?>admin/production/DatePresentation/chartjs.html">Chart JS</a></li>
-          <li><a href="<?php echo WEB_TOOL__MASTER_CUSTOM__ROOT_PATH; ?>admin/production/DatePresentation/chartjs2.html">Chart JS2</a></li>
-          <li><a href="<?php echo WEB_TOOL__MASTER_CUSTOM__ROOT_PATH; ?>admin/production/DatePresentation/morisjs.html">Moris JS</a></li>
-          <li><a href="<?php echo WEB_TOOL__MASTER_CUSTOM__ROOT_PATH; ?>admin/production/DatePresentation/echarts.html">ECharts</a></li>
-          <li><a href="<?php echo WEB_TOOL__MASTER_CUSTOM__ROOT_PATH; ?>admin/production/DatePresentation/other_charts.html">Other Charts</a></li>
-        </ul>
-      </li>
-      <li><a><i class="fa fa-clone"></i>MyCategory <span class="fa fa-chevron-down"></span></a>
-        <ul class="nav child_menu">
-          <li><a href="<?php echo WEB_TOOL__MASTER_CUSTOM__ROOT_PATH; ?>admin/production/Category/">My Created Category</a></li>
-        </ul>
-      </li>
+        <li><a href="<?php echo WEB_TOOL__MASTER_CUSTOM__ROOT_PATH; ?>admin/production/capture/"><i class="fa fa-home"></i> Capture </a></li>
     </ul>
   </div>
   <div class="menu_section">
