@@ -134,6 +134,8 @@ class UserController extends BaseController {
     public function getLogout()
     {
         $this->_model->getLogout();
+
+        return $this;
     }
 }
 ?>
