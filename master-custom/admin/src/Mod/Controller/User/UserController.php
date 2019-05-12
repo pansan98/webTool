@@ -5,13 +5,15 @@ namespace src\Mod\Controller\User;
 use src\Mod\Controller\Base\BaseController;
 use src\Mod\Model\User\UserModel;
 use src\App\AppHelper\Controller\ControllerHelper;
-use src\App\Form;
+use src\App\Form\FormHelper;
+use src\AppMessage\MessageHelper;
 
 class UserController extends BaseController {
     public static $instance;
 
     protected $_helper;
     protected $_model;
+    protected $_form;
 
     public function __construct()
     {
@@ -94,7 +96,8 @@ class UserController extends BaseController {
 
     public function setDbUserSaves($post)
     {
-        $formData = $this->setHelper()->_helper->getForm($post);
+        $this->createFormFactory();
+        $formData = array_merge($this->setHelper()->_helper->getForm($post), $this->_form->setFormFactory($this->setHelper()->_helper->getForm($post)));
         if(isset($formData['error'])) {
             return $formData;
         }
@@ -110,6 +113,19 @@ class UserController extends BaseController {
                 return true;
             }
         }
+    }
+
+    protected function createFormFactory()
+    {
+        if(!$this->_form instanceof FormHelper) {
+            $this->_form = FormHelper::getInstance();
+        }
+
+        $this->_form->setValidate('user_id', 'ユーザーID', ['require', 'length', 'character'], 100)
+            ->setValidate('user_password', 'ユーザーパスワード', ['require', 'character'])
+            ->setValidate('user_name', 'ユーザーネーム', ['require']);
+
+        $this->_form->createMessageFactory('User');
     }
 }
 ?>

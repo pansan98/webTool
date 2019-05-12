@@ -96,9 +96,6 @@ class ControllerHelper extends AppControllerHelper{
     {
         $arrPost = [];
         foreach ($post as $key => $val) {
-            if($val == "") {
-                $arrPost['error'][$key] = $this->getAddParam($key).'の入力をしてください。';
-            }
             if(is_array($val)) {
                 $this->getForm($val);
             } else {

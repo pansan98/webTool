@@ -31,7 +31,7 @@ class ValidateHelper {
      */
     public function setValidate($key, $name, array $validateKey, $len = 9999)
     {
-        $this->_validate[$key] = $validateKey;
+        $this->_validate[$key][$key] = $validateKey;
         $this->_validate[$key]['name'] = $name;
         $this->_validate[$key]['length'] = $len;
 
@@ -40,7 +40,11 @@ class ValidateHelper {
 
     public function getValidate($key)
     {
-        return $this->_validate[$key];
+        if(isset($this->_validate[$key])) {
+            return $this->_validate[$key];
+        }
+
+        return null;
     }
 
     public function setFormFactory(array $factory)
@@ -73,7 +77,7 @@ class ValidateHelper {
     public function factoryRomanCharacter($character)
     {
         $error = false;
-        $pattern = "/^([a-zA-Z0-9_-])$";
+        $pattern = "/^[a-zA-Z0-9_-]+$/";
         if(!preg_match($pattern, $character)) {
             $error = true;
         }

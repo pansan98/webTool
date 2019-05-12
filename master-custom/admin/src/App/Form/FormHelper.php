@@ -30,9 +30,9 @@ class FormHelper {
      * @param $name
      * @param array $validateKey ['require', 'sample']
      */
-    public function setValidate($key, $name,  array $validateKey)
+    public function setValidate($key, $name,  array $validateKey, $len = "")
     {
-        $this->_validateHelper->setValidate($key, $name, $validateKey);
+        $this->_validateHelper->setValidate($key, $name, $validateKey, $len);
 
         return $this;
     }
@@ -49,33 +49,33 @@ class FormHelper {
             $validate =[];
             $validate = $this->getValidate($key);
             if(!is_null($validate[$key])) {
-                for($i = 0; $i <= count($validate[$key]); $i++) {
+                for($i = 0; $i < count($validate[$key]); $i++) {
                     switch($validate[$key][$i]) {
                         case 'require':
                             if($this->_validateHelper->factoryRequire($val)) {
-                                if(!isset($validateError[$key]['error'])) {
-                                    $validateError[$key]['error'] = $validate[$key]['name'].'の'.$this->_messageHelper->getEngineFactory()->getMessageFactory($validate[$key][$i]);
+                                if(!isset($validateError['error'][$key])) {
+                                    $validateError['error'][$key] = $validate['name'].'の'.$this->_messageHelper->getEngineFactory()->getMessageFactory($validate[$key][$i]);
                                 }
                             }
                             break;
                         case 'length':
-                            if($this->_validateHelper->factoryLength($val, $validate[$key]['length'])) {
-                                if(!isset($validateError[$key]['error'])) {
-                                    $validateError[$key]['error'] = $validateError[$key]['name'].'は'.$validateError[$key]['length'].$this->_messageHelper->getEngineFactory()->getMessageFactory($validate[$key][$i]);
+                            if($this->_validateHelper->factoryLength($val, $validate['length'])) {
+                                if(!isset($validateError['error'][$key])) {
+                                    $validateError['error'][$key] = $validate['name'].'は'.$validate['length'].$this->_messageHelper->getEngineFactory()->getMessageFactory($validate[$key][$i]);
                                 }
                             }
                             break;
                         case 'character':
                             if($this->_validateHelper->factoryRomanCharacter($val)) {
-                                if(!isset($validateError[$key]['error'])) {
-                                    $validateError[$key]['error'] = $validateError[$key]['name'].'は'.$this->_messageHelper->getEngineFactory()->getMessageFactory($validate[$key][$i]);
+                                if(!isset($validateError['error'][$key])) {
+                                    $validateError['error'][$key] = $validate['name'].'は'.$this->_messageHelper->getEngineFactory()->getMessageFactory($validate[$key][$i]);
                                 }
                             }
                             break;
                         case 'numeric':
                             if($this->_validateHelper->factoryNumeric($val)) {
-                                if(!isset($validateError[$key]['error'])) {
-                                    $validateError[$key]['error'] = $validateError[$key]['name'].'は'.$this->_messageHelper->getEngineFactory()->getMessageFactory($validate[$key][$i]);
+                                if(!isset($validateError['error'][$key])) {
+                                    $validateError['error'][$key] = $validate['name'].'は'.$this->_messageHelper->getEngineFactory()->getMessageFactory($validate[$key][$i]);
                                 }
                             }
                             break;

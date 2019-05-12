@@ -10,7 +10,8 @@ class MessageHelper {
 
     private function __construct($engine)
     {
-        $this->_engine = $engine::getEngine();
+        //$this->_engine = $engine::getFactory();
+        $this->_engine = User::getFactory();
     }
 
     protected static function getInstance($engine)
