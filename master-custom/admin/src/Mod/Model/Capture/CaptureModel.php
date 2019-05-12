@@ -33,7 +33,7 @@ class CaptureModel extends BaseModel{
 
     public function isRunSaves(array $wheres)
     {
-        $this->_modelHelper->setDbTableName($this->_db_table)->setSQLStatement(WEB_TOOL__SQL__STATEMENT_INSERT);
+        $this->_modelHelper->setDbTableName($this->_db_table)->setQueryBuilder(WEB_TOOL__SQL__STATEMENT_INSERT);
         foreach ($wheres as $keyWhere => $valWhere) {
             $this->_modelHelper->setAddWhere($keyWhere, $valWhere);
         }
@@ -52,7 +52,7 @@ class CaptureModel extends BaseModel{
 
     public function getData()
     {
-        $this->_modelHelper->setDbTableName($this->_db_table)->setSQLStatement(WEB_TOOL__SQL__STATEMENT_SELECT);
+        $this->_modelHelper->setDbTableName($this->_db_table)->setQueryBuilder(WEB_TOOL__SQL__STATEMENT_SELECT);
         $this->_modelHelper->setAddWhere('user_id', 1);
 
         $this->_where = $this->_modelHelper->getWhere();
@@ -64,7 +64,7 @@ class CaptureModel extends BaseModel{
             for($i = 0; $i < count($data);$i++) {
                 foreach ($data[$i] as $functionKey => $functionValue) {
                     $functionCreate = "";
-                    $functionCreate = "set".$this->_modelHelper->getCamelCase($functionKey);
+                    $functionCreate = "set".$this->_modelHelper->createCamelCase($functionKey);
                     // 各プロパティにセット
                     if(method_exists($this->_model, $functionCreate)) {
                         $this->_model->$functionCreate($functionValue);

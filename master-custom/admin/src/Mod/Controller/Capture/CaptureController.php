@@ -4,6 +4,7 @@ namespace src\Mod\Controller\Capture;
 use src\Mod\Controller\Base\BaseController;
 use src\Mod\Model\Capture\CaptureModel;
 use src\App\AppHelper\Controller\Capture\CaptureHelper;
+use src\App\Form\FormHelper;
 use JonnyW\PhantomJs\Client;
 
 class CaptureController extends BaseController {
@@ -15,6 +16,7 @@ class CaptureController extends BaseController {
 
     private $_helper;
     private $_model;
+    private $_form;
 
     protected $_isSize = false;
     protected $_size = [];
@@ -100,6 +102,7 @@ class CaptureController extends BaseController {
         $this->_request = $this->_client->getMessageFactory()->createCaptureRequest($this->_ssUrl, 'GET');
         $this->_response = $this->_client->getMessageFactory()->createResponse();
         $this->setHelper();
+        $this->_helper->setInit('length', 20)->setInit('date', date('Ymd'));
 
     }
     public function setCaptureSize(array $size)
@@ -118,7 +121,7 @@ class CaptureController extends BaseController {
         }
 
         $this->_fileName = $this->_helper->getRandomText().'.jpg';
-        $this->_fileDir = CAPTURE__ROOT_DIR__SCREEN_SHOT.$this->_fileName;
+        $this->_fileDir = WEB_TOOL__ROOT_DATAS_DIR.$this->getActionName().'/'.$this->_fileName;
         $this->_request->setOutputFile($this->_fileDir);
 
         $this->_client->send($this->_request, $this->_response);
@@ -126,10 +129,24 @@ class CaptureController extends BaseController {
         return true;
     }
 
-    protected function setHelper()
+    public function setHelper()
     {
-        $this->_helper = CaptureHelper::getInstance();
-        $this->_helper->setInit('length', 20)->setInit('date', date('Ymd'));
+        if(!$this->_helper instanceof CaptureHelper) {
+            $this->_helper = CaptureHelper::getInstance();
+        }
+
+        return $this;
+    }
+
+    public function getPostQueryParam($key)
+    {
+        $this->createFormFactory();
+        $form = $this->_form->setFormFactory([$key => $this->_helper->getPostQueryParam($key)]);
+        if(isset($form['error'])) {
+            return $form;
+        }
+
+        return $this->_helper->getPostQueryParam($key);
     }
 
     public function setRunSaves()
@@ -152,7 +169,7 @@ class CaptureController extends BaseController {
                 'capture_copy' => $this->_ssUrl,
                 'capture_filename' => $this->_fileName,
                 'user_id' => 1,
-                'capture_created' => date('Y-m-d')
+                'capture_created' => date('Y-m-d H:i:s')
             ];
 
         $this->_model->isRunSaves($saves);
@@ -162,6 +179,18 @@ class CaptureController extends BaseController {
     {
         $this->setRunSaves();
         return $this->_model->getData();
+    }
+
+
+    protected function createFormFactory()
+    {
+        if(!$this->_form instanceof FormHelper) {
+            $this->_form = FormHelper::getInstance();
+        }
+
+        $this->_form->setValidate('capture_url', 'キャプチャーURL', ['require', 'length', 'url']);
+
+        $this->_form->createMessageFactory('Capture');
     }
 
 }

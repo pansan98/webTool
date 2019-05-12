@@ -1,12 +1,18 @@
 <?php
 namespace src\App\AppHelper\Controller;
 
-use src\App\AppHelper\AppHelper;
+use src\App\AppHelper\AppControllerHelper;
 
-class ControllerHelper extends AppHelper{
+class ControllerHelper extends AppControllerHelper{
     protected static $instanceHelper;
 
     private $_displayName = [];
+
+    private $_arrParam = [
+        "user_id" => "ユーザーID",
+        "user_password" => "ユーザーパスワード",
+        "user_name" => "ユーザーネーム"
+    ];
 
     private function __construct()
     {
@@ -79,12 +85,30 @@ class ControllerHelper extends AppHelper{
     public function getDisplayName()
     {
         $paramInt = 1;
-        if(strpos($_SERVER['SCRIPT_NAME'], 'admin') !== false) {
+        if(strpos($_SERVER['SCRIPT_NAME'], 'master-custom/admin') !== false) {
             $paramInt = 0;
-        } else {
-            $paramInt = 1;
         }
+
         return $this->_displayName[$paramInt];
+    }
+
+    public function getForm($post)
+    {
+        $arrPost = [];
+        foreach ($post as $key => $val) {
+            if(is_array($val)) {
+                $this->getForm($val);
+            } else {
+                $arrPost[$key] = htmlspecialchars(strip_tags(mb_convert_encoding($val, 'UTF-8', 'auto')));
+            }
+        }
+
+        return $arrPost;
+    }
+
+    protected function getAddParam($key)
+    {
+        return $this->_arrParam[$key];
     }
 }
 ?>

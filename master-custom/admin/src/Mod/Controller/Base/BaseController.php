@@ -3,7 +3,9 @@ namespace src\Mod\Controller\Base;
 
 use src\Mod\Controller\Controller;
 use src\Mod\Controller\Capture\CaptureController;
+use src\Mod\Controller\User\UserController;
 use src\App\AppHelper\Controller\ControllerHelper;
+use src\App\Form\FormHelper;
 
 class BaseController extends Controller {
     private $_actionName;
@@ -53,5 +55,6 @@ class BaseController extends Controller {
 
         return $this->_actionController::getInstance();
     }
+
 }
 ?>

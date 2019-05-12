@@ -14,6 +14,11 @@ class Model extends UserModel {
     protected $_user_id;
 
     /**
+     * user password
+     */
+    protected $_user_password;
+
+    /**
      * user name
      */
     protected $_user_name;
@@ -48,6 +53,11 @@ class Model extends UserModel {
         return $this->_user_name;
     }
 
+    public function getModel()
+    {
+        return $this;
+    }
+
     protected function setUserId($id)
     {
         $this->_user_id = $id;
@@ -58,6 +68,18 @@ class Model extends UserModel {
     protected function getUserId()
     {
         return $this->_user_id;
+    }
+
+    protected function setUserPassword($password)
+    {
+        $this->_user_password = $password;
+
+        return $this;
+    }
+
+    protected function getUserPassword()
+    {
+        return $this->_user_password;
     }
 
     protected function setUserName($name)
@@ -96,7 +118,7 @@ class Model extends UserModel {
         return $this->_user_deleted;
     }
 
-    protected function setUserRoomId(array $roomId)
+    protected function setUserRoomId($roomId)
     {
         $this->_user_room_id = $roomId;
 
