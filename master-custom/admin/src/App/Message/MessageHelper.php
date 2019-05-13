@@ -2,6 +2,7 @@
 namespace src\App\Message;
 
 
+use src\App\Doctrine\Doctrine;
 
 class MessageHelper {
     protected static $instanceHelper;

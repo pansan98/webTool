@@ -80,6 +80,9 @@
              "type":"post",
              "data":{"user_id":userId, "user_password":userPass, "user_name":userName, "user_form_status":true, "display":display}
          }).done(function(response) {
+             if(response == true) {
+                 window.location.href = './production/';
+             }
              removeLoading();
              $('.login_wrapper').html(response);
          }).fail(function(xhr, errorThrow, textStatus) {

@@ -1,5 +1,13 @@
 <?php
 include __DIR__.'/../../bootstrap.php';
+
+use src\Mod\Controller\Base\BaseController as Controller;
+
+$baseController = new Controller();
+$actionController = $baseController->setActionName('User')->getController();
+if(!$actionController->getIsLoggedIn()) {
+    $actionController->redirectShowLoginScreen();
+}
 include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.'Admin/Parts/head.php';
 ?>
  <body class="nav-md footer_fixed">

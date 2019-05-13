@@ -1,5 +1,4 @@
 <?php
-session_start();
 include dirname(__FILE__).'/../bootstrap.php';
 
 use src\Mod\Controller\Base\BaseController as Controller;

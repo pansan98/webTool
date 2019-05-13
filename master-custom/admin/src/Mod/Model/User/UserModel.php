@@ -20,6 +20,7 @@ class UserModel extends BaseModel{
     protected $_where = [];
 
     private $_form = [];
+    private $_createFormPassword;
 
     public function __construct()
     {
@@ -75,11 +76,18 @@ class UserModel extends BaseModel{
         exit;
     }
 
+    /**
+     * フォームから値を受け取った後、エラーがなければSQL準備
+     *
+     * @param $formData
+     * @return array|bool
+     */
     public function setDbUserSaves($formData)
     {
         $this->_modelHelper->setDbTableName($this->_db_table)->setQueryBuilder(WEB_TOOL__SQL__STATEMENT_INSERT);
         foreach ($formData as $keyForm => $valForm) {
             if($keyForm == "user_password") {
+                $this->_createFormPassword = $valForm;
                 $valForm = password_hash($valForm, PASSWORD_DEFAULT);
             }
             if($keyForm != "user_form_status" && $keyForm != "display") {
@@ -101,7 +109,7 @@ class UserModel extends BaseModel{
         parent::setDbSaveWhere($where);
 
         // 新規登録後ログイン処理
-        //$this->getLogin();
+        $this->getLogin();
         return true;
     }
 
@@ -137,8 +145,11 @@ class UserModel extends BaseModel{
                     }
                 }
             }
+            if(isset($this->_createFormPassword)) {
+                $this->_form['user_password'] = $this->_createFormPassword;
+            }
             if(password_verify($this->_form['user_password'], $this->_userModel->getUserPassword())) {
-                // 必要なものをセッションに保存
+                // 最低限ユーザー情報をセッションに保存
                 $this->_sessionModel->setGlobalSessionKey('user');
                 $this->_sessionModel->setSession('user_id', $this->_userModel->getUserId())
                     ->setSession('user_name', $this->_userModel->getUserName())
