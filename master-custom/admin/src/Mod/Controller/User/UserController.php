@@ -106,7 +106,13 @@ class UserController extends BaseController {
         }
 
         if($formData['display'] == 'create') {
-            return $this->_model->setDbUserSaves($formData);
+            $login = $this->_model->setLogin($formData)->getAlreadyRegister();
+            if(isset($login['error'])) {
+                $login = array_merge($login, $formData);
+                return $login;
+            } elseif($login) {
+                return $this->_model->setDbUserSaves($formData);
+            }
         } elseif($formData['display'] == 'login') {
             $login = $this->_model->setLogin($formData)->getLogin();
             if(isset($login['error'])) {

@@ -97,8 +97,7 @@ class UserModel extends BaseModel{
         }
         $this->_modelHelper->setAddWhere('user_created', date('Y-m-d H:i:s'));
 
-        $this->_where = $this->_modelHelper->getWhere();
-        return $this->setDbSaveWhere($this->_where);
+        return $this->setDbSaveWhere($this->_modelHelper->getWhere());
     }
 
     protected function setDbSaveWhere(array $where)
@@ -129,8 +128,7 @@ class UserModel extends BaseModel{
         $this->_modelHelper->setAddWhere('user_id', $this->_form['user_id'])
             ->setAddWhere('user_deleted', 0);
 
-        $this->_where = $this->_modelHelper->getWhere();
-        $data = $this->setDbSaveWhere($this->_where);
+        $data = $this->setDbSaveWhere($this->_modelHelper->getWhere());
         $ret = [];
         if(isset($data) AND count($data) > 0) {
             // モデルをセット
@@ -177,6 +175,36 @@ class UserModel extends BaseModel{
         }
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     * true => 登録なし
+     * ['error'] => すでに登録済みID
+     */
+    public function getAlreadyRegister()
+    {
+        $this->_modelHelper->setSelect('user_id')
+            ->setSelect('user_deleted', 0);
+
+        $this->_modelHelper->setDbTableName($this->_db_table)->setQueryBuilder(WEB_TOOL__SQL__STATEMENT_SELECT);
+
+        // add where
+        $this->_modelHelper->setAddWhere('user_id', $this->_form['user_id'])
+            ->setAddWhere('user_deleted', 0);
+
+        $this->_where = $this->_modelHelper->getWhere();
+        $data = $this->setDbSaveWhere($this->_where);
+
+        // 初期化
+        $this->cleanQueryBuilder();
+        if(isset($data) AND count($data) > 0) {
+            $data = [];
+            $data['error']['user_id'] = 'すでに登録済みのIDです。他のIDを入力してください。';
+            return $data;
+        }
+
+        return true;
     }
 
     public function getLogout()

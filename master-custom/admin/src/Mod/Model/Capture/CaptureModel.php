@@ -20,8 +20,7 @@ class CaptureModel extends BaseModel{
 
     public function __construct()
     {
-        // Modelヘルパー取得
-        $this->getHelper();
+        parent::__construct();
         // セッションモデルセット
         $this->_sessionModel = SessionModel::getInstance();
         $this->_sessionModel->setGlobalSessionKey('user');
@@ -63,7 +62,7 @@ class CaptureModel extends BaseModel{
         $this->_where = $this->_modelHelper->getWhere();
         $data = $this->setDbSaveWhere($this->_where);
         $ret = [];
-        if(isset($data)) {
+        if(isset($data) AND count($data) > 0) {
             // モデルをセット
             $this->setModel();
             for($i = 0; $i < count($data);$i++) {

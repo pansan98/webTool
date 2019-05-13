@@ -18,8 +18,6 @@ class ChatModel extends BaseModel{
 
     public function __construct()
     {
-        // Modelヘルパー取得
-        $this->getHelper();
     }
 
     public static function getInstance()

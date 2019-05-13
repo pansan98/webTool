@@ -13,6 +13,11 @@ class BaseModel extends Model {
 
     protected $_where = [];
 
+    public function __construct()
+    {
+        $this->_modelHelper = ModelHelper::getInstance();
+    }
+
     protected function init()
     {
         parent::init();
@@ -28,9 +33,9 @@ class BaseModel extends Model {
         return parent::getDbConnect();
     }
 
-    protected function getHelper()
+    protected function cleanQueryBuilder()
     {
-        $this->_modelHelper = ModelHelper::getInstance();
+        $this->_modelHelper->cleanQueryBuilder();
     }
 
     protected function setDbSaveWhere(array $where)
@@ -42,13 +47,6 @@ class BaseModel extends Model {
                 return $this->runDbSave($where);
             }
             $this->runDbSave($where);
-//            $dbWhere = [];
-//            foreach ($where as $key => $val) {
-//                $dbWhere['bindKey'][] = $key.' = :'.$key;
-//                $dbWhere['bindValue'][$key] = $val;
-//            }
-//
-//            $this->_where[] = $dbWhere;
         } else {
             $error = $this->getDbConnect();
             var_dump($error['error']);
