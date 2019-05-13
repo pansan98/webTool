@@ -4,11 +4,13 @@ namespace src\Mod\Model\Capture;
 use src\Mod\Model\Base\BaseModel;
 use src\Mod\Model\Capture\Model;
 use src\App\AppHelper\Model\ModelHelper;
+use src\Mod\Model\Session\SessionModel;
 
 class CaptureModel extends BaseModel{
     protected static $instance;
 
     private $_model;
+    private $_sessionModel;
 
     protected $_statement;
     protected $_where = [];
@@ -20,6 +22,9 @@ class CaptureModel extends BaseModel{
     {
         // Modelヘルパー取得
         $this->getHelper();
+        // セッションモデルセット
+        $this->_sessionModel = SessionModel::getInstance();
+        $this->_sessionModel->setGlobalSessionKey('user');
     }
 
     public static function getInstance()
@@ -53,7 +58,7 @@ class CaptureModel extends BaseModel{
     public function getData()
     {
         $this->_modelHelper->setDbTableName($this->_db_table)->setQueryBuilder(WEB_TOOL__SQL__STATEMENT_SELECT);
-        $this->_modelHelper->setAddWhere('user_id', 1);
+        $this->_modelHelper->setAddWhere('user_id', $this->_sessionModel->getSession('user_id'));
 
         $this->_where = $this->_modelHelper->getWhere();
         $data = $this->setDbSaveWhere($this->_where);

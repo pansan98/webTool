@@ -46,7 +46,7 @@ class UserModel extends BaseModel{
     public function isLogged()
     {
         if(!$this->_isLogged) {
-            $this->redirectShowLoginScreen();
+            $this->redirectShowLoginScreen(1);
         }
     }
 
