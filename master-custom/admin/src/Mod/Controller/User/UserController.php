@@ -30,9 +30,12 @@ class UserController extends BaseController {
         return self::$instance;
     }
 
-    public function isLoggedIn()
+    /**
+     * 未ログイン時リダイレクト
+     */
+    public function isLogged()
     {
-        $this->_model->isLoggedIn();
+        $this->_model->isLogged();
     }
 
     public function getIsLoggedIn()
@@ -142,6 +145,11 @@ class UserController extends BaseController {
         $this->_model->getLogout();
 
         return $this;
+    }
+
+    public function getUser($key)
+    {
+        return $this->_model->getUser($key);
     }
 }
 ?>

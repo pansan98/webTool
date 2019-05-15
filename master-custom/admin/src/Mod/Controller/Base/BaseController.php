@@ -51,6 +51,9 @@ class BaseController extends Controller {
     {
         if(is_null($this->_actionController)) {
             $this->_actionController = "src\\Mod\\Controller\\".$this->getActionName()."\\".$this->getActionName()."Controller";
+        } else {
+            $this->_actionController = null;
+            $this->getController();
         }
 
         return $this->_actionController::getInstance();

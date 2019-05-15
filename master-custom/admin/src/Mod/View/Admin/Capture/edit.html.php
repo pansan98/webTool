@@ -8,6 +8,7 @@
                     <th>
                         <input type="text" class="capture-form" name="capture" style="width: 100%; color: #2A3F54;" placeholder="input capture URL">
                     </th>
+                    <input type="hidden" name="user_id" value="<?php echo $userController->getUser('user_id'); ?>">
                 </tr>
                 </thead>
             </table>
@@ -30,6 +31,7 @@
     function setSendCapture() {
 
         var value = $('.capture-form').val();
+        var user_id = $('input[name="user_id"]');
 
         var loadingStyle = {
             'capture-elem': {
@@ -52,13 +54,13 @@
 
         setLoading();
         setStyle();
-        sendCapture(value);
+        sendCapture(value, user_id);
 
-        function sendCapture(url) {
+        function sendCapture(url, user_id) {
             $.ajax({
                 "url":"../../../app/ajax/Capture/ajax.php",
                 "type":"post",
-                "data":{"capture_url":url}
+                "data":{"capture_url":url, "user_id":user_id}
             }).done(function(response){
                 removeLoading();
             }).fail(function(xhr, errorThrow, textStatus){

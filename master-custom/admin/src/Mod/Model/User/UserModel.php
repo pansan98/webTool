@@ -211,5 +211,11 @@ class UserModel extends BaseModel{
     {
         $this->_sessionModel->getLogout();
     }
+
+    public function getUser($key)
+    {
+        $this->_sessionModel->setGlobalSessionKey('user');
+        return $this->_sessionModel->getSession($key);
+    }
 }
 ?>
