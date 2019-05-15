@@ -1,6 +1,5 @@
 <?php
-session_start();
-include dirname(__FILE__).'/../../bootstrap.php';
+include __DIR__.'/../../bootstrap.php';
 include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.'Admin/Parts/head.php';
 ?>
  <body class="nav-md footer_fixed">
