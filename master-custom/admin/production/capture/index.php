@@ -4,6 +4,8 @@ include dirname(__FILE__).'/../../../bootstrap.php';
 use src\Mod\Controller\Base\BaseController as Controller;
 
 $baseController = new Controller();
+$userController = $baseController->setActionName('User')->getController();
+$userController->isLogged();
 $actionController = $baseController->setActionName('Capture')->getController();
 include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.'Admin/Parts/head.php';
 ?>

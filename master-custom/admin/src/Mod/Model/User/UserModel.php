@@ -20,6 +20,7 @@ class UserModel extends BaseModel{
     protected $_where = [];
 
     private $_form = [];
+    private $_createFormPassword;
 
     public function __construct()
     {
@@ -75,11 +76,18 @@ class UserModel extends BaseModel{
         exit;
     }
 
+    /**
+     * フォームから値を受け取った後、エラーがなければSQL準備
+     *
+     * @param $formData
+     * @return array|bool
+     */
     public function setDbUserSaves($formData)
     {
         $this->_modelHelper->setDbTableName($this->_db_table)->setQueryBuilder(WEB_TOOL__SQL__STATEMENT_INSERT);
         foreach ($formData as $keyForm => $valForm) {
             if($keyForm == "user_password") {
+                $this->_createFormPassword = $valForm;
                 $valForm = password_hash($valForm, PASSWORD_DEFAULT);
             }
             if($keyForm != "user_form_status" && $keyForm != "display") {
@@ -89,8 +97,7 @@ class UserModel extends BaseModel{
         }
         $this->_modelHelper->setAddWhere('user_created', date('Y-m-d H:i:s'));
 
-        $this->_where = $this->_modelHelper->getWhere();
-        return $this->setDbSaveWhere($this->_where);
+        return $this->setDbSaveWhere($this->_modelHelper->getWhere());
     }
 
     protected function setDbSaveWhere(array $where)
@@ -101,7 +108,7 @@ class UserModel extends BaseModel{
         parent::setDbSaveWhere($where);
 
         // 新規登録後ログイン処理
-        //$this->getLogin();
+        $this->getLogin();
         return true;
     }
 
@@ -121,8 +128,7 @@ class UserModel extends BaseModel{
         $this->_modelHelper->setAddWhere('user_id', $this->_form['user_id'])
             ->setAddWhere('user_deleted', 0);
 
-        $this->_where = $this->_modelHelper->getWhere();
-        $data = $this->setDbSaveWhere($this->_where);
+        $data = $this->setDbSaveWhere($this->_modelHelper->getWhere());
         $ret = [];
         if(isset($data) AND count($data) > 0) {
             // モデルをセット
@@ -137,8 +143,11 @@ class UserModel extends BaseModel{
                     }
                 }
             }
+            if(isset($this->_createFormPassword)) {
+                $this->_form['user_password'] = $this->_createFormPassword;
+            }
             if(password_verify($this->_form['user_password'], $this->_userModel->getUserPassword())) {
-                // 必要なものをセッションに保存
+                // 最低限ユーザー情報をセッションに保存
                 $this->_sessionModel->setGlobalSessionKey('user');
                 $this->_sessionModel->setSession('user_id', $this->_userModel->getUserId())
                     ->setSession('user_name', $this->_userModel->getUserName())
@@ -168,9 +177,45 @@ class UserModel extends BaseModel{
         return $this;
     }
 
+    /**
+     * @return bool
+     * true => 登録なし
+     * ['error'] => すでに登録済みID
+     */
+    public function getAlreadyRegister()
+    {
+        $this->_modelHelper->setSelect('user_id')
+            ->setSelect('user_deleted', 0);
+
+        $this->_modelHelper->setDbTableName($this->_db_table)->setQueryBuilder(WEB_TOOL__SQL__STATEMENT_SELECT);
+
+        // add where
+        $this->_modelHelper->setAddWhere('user_id', $this->_form['user_id'])
+            ->setAddWhere('user_deleted', 0);
+
+        $this->_where = $this->_modelHelper->getWhere();
+        $data = $this->setDbSaveWhere($this->_where);
+
+        // 初期化
+        $this->cleanQueryBuilder();
+        if(isset($data) AND count($data) > 0) {
+            $data = [];
+            $data['error']['user_id'] = 'すでに登録済みのIDです。他のIDを入力してください。';
+            return $data;
+        }
+
+        return true;
+    }
+
     public function getLogout()
     {
         $this->_sessionModel->getLogout();
+    }
+
+    public function getUser($key)
+    {
+        $this->_sessionModel->setGlobalSessionKey('user');
+        return $this->_sessionModel->getSession($key);
     }
 }
 ?>

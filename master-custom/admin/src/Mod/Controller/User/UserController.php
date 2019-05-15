@@ -30,9 +30,12 @@ class UserController extends BaseController {
         return self::$instance;
     }
 
-    public function isLoggedIn()
+    /**
+     * 未ログイン時リダイレクト
+     */
+    public function isLogged()
     {
-        $this->_model->isLoggedIn();
+        $this->_model->isLogged();
     }
 
     public function getIsLoggedIn()
@@ -106,7 +109,13 @@ class UserController extends BaseController {
         }
 
         if($formData['display'] == 'create') {
-            return $this->_model->setDbUserSaves($formData);
+            $login = $this->_model->setLogin($formData)->getAlreadyRegister();
+            if(isset($login['error'])) {
+                $login = array_merge($login, $formData);
+                return $login;
+            } elseif($login) {
+                return $this->_model->setDbUserSaves($formData);
+            }
         } elseif($formData['display'] == 'login') {
             $login = $this->_model->setLogin($formData)->getLogin();
             if(isset($login['error'])) {
@@ -136,6 +145,11 @@ class UserController extends BaseController {
         $this->_model->getLogout();
 
         return $this;
+    }
+
+    public function getUser($key)
+    {
+        return $this->_model->getUser($key);
     }
 }
 ?>

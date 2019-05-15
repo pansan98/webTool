@@ -25,6 +25,11 @@ class ModelHelper extends AppModelHelper{
         return self::$instanceHelper;
     }
 
+    /**
+     * 実行するテーブルセット
+     * @param $name
+     * @return $this
+     */
     public function setDbTableName($name)
     {
         $this->_db_table = $name;
@@ -32,6 +37,11 @@ class ModelHelper extends AppModelHelper{
         return $this;
     }
 
+    /**
+     * SQLステートメントをセット
+     * @param $statement
+     * @return $this
+     */
     public function setQueryBuilder($statement)
     {
         $this->_sqlStatementStatus = $statement;
@@ -40,12 +50,20 @@ class ModelHelper extends AppModelHelper{
         return $this;
     }
 
+    /**
+     * SQLのステータスを取得
+     * @return mixed
+     */
     public function getSQLStatementStatus()
     {
         return $this->_sqlStatementStatus;
     }
 
-    // 生成したSQLに置換する
+    /**
+     * 生成したSQL文に置換する
+     * @param array $where
+     * @return $this
+     */
     public function setWhere(array $where)
     {
         $this->_where = $where;
@@ -53,6 +71,12 @@ class ModelHelper extends AppModelHelper{
         return $this;
     }
 
+    /**
+     * where文の追加
+     * @param $key
+     * @param $value
+     * @return $this
+     */
     public function setAddWhere($key, $value)
     {
         $this->_where['where'][$key] = $value;
@@ -60,11 +84,20 @@ class ModelHelper extends AppModelHelper{
         return $this;
     }
 
+    /**
+     * 生成したwhere文を取得
+     * @return array
+     */
     public function getWhere()
     {
         return $this->_where;
     }
 
+    /**
+     * select文の追加
+     * @param $select
+     * @return $this
+     */
     public function setSelect($select)
     {
         $this->_select[] = $select;
@@ -72,9 +105,22 @@ class ModelHelper extends AppModelHelper{
         return $this;
     }
 
+    /**
+     * 生成したselect文を取得
+     * @return array
+     */
     public function getSelect()
     {
         return $this->_select;
+    }
+
+    /**
+     * 生成したSQLを初期化する
+     */
+    public function cleanQueryBuilder()
+    {
+        $this->_where = [];
+        $this->_select = [];
     }
 
     // Add first if you want to select
@@ -104,6 +150,10 @@ class ModelHelper extends AppModelHelper{
         return $sql;
     }
 
+    /**
+     * データを取得するbool値
+     * @return bool
+     */
     public function getSqlStatus()
     {
         if($this->getSQLStatementStatus() === WEB_TOOL__SQL__STATEMENT_SELECT) {
@@ -113,7 +163,11 @@ class ModelHelper extends AppModelHelper{
         }
     }
 
-
+    /**
+     * キャメルケース生成
+     * @param $snakeCase
+     * @return string
+     */
     public function createCamelCase($snakeCase)
     {
         return ucfirst(lcfirst(strtr(ucwords(strtr($snakeCase, ['_' => ' '])), [' ' => ''])));

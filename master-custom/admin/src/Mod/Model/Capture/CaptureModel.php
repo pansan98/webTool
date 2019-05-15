@@ -20,8 +20,7 @@ class CaptureModel extends BaseModel{
 
     public function __construct()
     {
-        // Modelヘルパー取得
-        $this->getHelper();
+        parent::__construct();
         // セッションモデルセット
         $this->_sessionModel = SessionModel::getInstance();
         $this->_sessionModel->setGlobalSessionKey('user');
@@ -63,15 +62,17 @@ class CaptureModel extends BaseModel{
         $this->_where = $this->_modelHelper->getWhere();
         $data = $this->setDbSaveWhere($this->_where);
         $ret = [];
-        if(isset($data)) {
-            // モデルをセット
-            $this->setModel();
+        if(isset($data) AND count($data) > 0) {
             for($i = 0; $i < count($data);$i++) {
+                // モデルをセット
+                $this->setModel();
                 foreach ($data[$i] as $functionKey => $functionValue) {
                     $functionCreate = "";
+                    // キーに応じてメソッドを自動作成
+                    // キャメルケースに応じてメッソドを作成、キーを合わせる必要あり
                     $functionCreate = "set".$this->_modelHelper->createCamelCase($functionKey);
-                    // 各プロパティにセット
                     if(method_exists($this->_model, $functionCreate)) {
+                        // 各プロパティにセット
                         $this->_model->$functionCreate($functionValue);
                     }
                 }
@@ -84,6 +85,10 @@ class CaptureModel extends BaseModel{
 
     protected function setModel()
     {
+        if(isset($this->_model)) {
+            unset($this->_model);
+        }
+
         $this->_model = new Model();
     }
 }

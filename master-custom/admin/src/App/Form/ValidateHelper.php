@@ -67,8 +67,10 @@ class ValidateHelper {
     public function factoryLength($string, $len)
     {
         $error = false;
-        if(mb_strlen($string, 'UTF-8') > $len) {
-            $error = true;
+        if($string != "") {
+            if(mb_strlen($string, 'UTF-8') > $len) {
+                $error = true;
+            }
         }
 
         return $error;
@@ -77,9 +79,11 @@ class ValidateHelper {
     public function factoryRomanCharacter($character)
     {
         $error = false;
-        $pattern = "/^[a-zA-Z0-9_-]+$/";
-        if(!preg_match($pattern, $character)) {
-            $error = true;
+        if ($character != "") {
+            $pattern = "/^[a-zA-Z0-9_-]+$/";
+            if(!preg_match($pattern, $character)) {
+                $error = true;
+            }
         }
 
         return $error;
@@ -88,8 +92,10 @@ class ValidateHelper {
     public function factoryNumeric($num)
     {
         $error = false;
-        if(!is_numeric($num)) {
-            $error = true;
+        if($num != "") {
+            if(!is_numeric($num)) {
+                $error = true;
+            }
         }
 
         return $error;
@@ -98,9 +104,11 @@ class ValidateHelper {
     public function factoryUrl($url)
     {
         $error = false;
-        $pattern = '/^(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i';
-        if(!preg_match($pattern, $url)) {
-            $error = true;
+        if ($url != "") {
+            $pattern = '/^(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i';
+            if(!preg_match($pattern, $url)) {
+                $error = true;
+            }
         }
 
         return $error;

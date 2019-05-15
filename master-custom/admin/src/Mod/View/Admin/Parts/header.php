@@ -15,7 +15,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="">
           <a href="javascript:void(0);" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            <?php //echo $user['user_nickname']; ?>user name
+            <?php echo $userController->getUser('user_name'); ?>
             <span class=" fa fa-angle-down"></span>
           </a>
           <ul class="dropdown-menu dropdown-usermenu pull-right">

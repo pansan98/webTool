@@ -168,7 +168,7 @@ class CaptureController extends BaseController {
                 'capture_url' => $fileUrl,
                 'capture_copy' => $this->_ssUrl,
                 'capture_filename' => $this->_fileName,
-                'user_id' => 1,
+                'user_id' => $this->_helper->getPostQuery('user_id'),
                 'capture_created' => date('Y-m-d H:i:s')
             ];
 
