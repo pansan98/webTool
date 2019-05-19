@@ -29,9 +29,10 @@
 
 <script type="text/javascript">
     function setSendCapture() {
+        const sendUrl = '<?php echo WEB_TOOL__MASTER_CUSTOM__ROOT_PATH; ?>admin/app/ajax/Capture/ajax.php';
 
         var value = $('.capture-form').val();
-        var user_id = $('input[name="user_id"]');
+        var user_id = $('input[name="user_id"]').val();
 
         var loadingStyle = {
             'capture-elem': {
@@ -39,8 +40,8 @@
                 'top': '0',
                 'left': '0',
                 'z-index': '99999',
-                'width': '100%',
-                'height': '100%',
+                'width': window.innerWidth+'px',
+                'height': window.innerHeight+'px',
                 'background': '#000',
                 'opacity': '0.7'
             },
@@ -58,7 +59,7 @@
 
         function sendCapture(url, user_id) {
             $.ajax({
-                "url":"../../../app/ajax/Capture/ajax.php",
+                "url":sendUrl,
                 "type":"post",
                 "data":{"capture_url":url, "user_id":user_id}
             }).done(function(response){

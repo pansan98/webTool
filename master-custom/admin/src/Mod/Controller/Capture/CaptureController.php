@@ -168,7 +168,7 @@ class CaptureController extends BaseController {
                 'capture_url' => $fileUrl,
                 'capture_copy' => $this->_ssUrl,
                 'capture_filename' => $this->_fileName,
-                'user_id' => $this->_helper->getPostQuery('user_id'),
+                'user_id' => $this->_helper->getPostQueryParam('user_id'),
                 'capture_created' => date('Y-m-d H:i:s')
             ];
 
@@ -188,7 +188,7 @@ class CaptureController extends BaseController {
             $this->_form = FormHelper::getInstance();
         }
 
-        $this->_form->setValidate('capture_url', 'キャプチャーURL', ['require', 'length', 'url']);
+        $this->_form->setValidate('capture_url', 'キャプチャーURL', ['require', 'url']);
 
         $this->_form->createMessageFactory('Capture');
     }
