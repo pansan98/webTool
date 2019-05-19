@@ -2,16 +2,16 @@
 
 
     <div class="table-responsive">
-            <table class="table table-striped jambo_table bulk_action">
-                <thead>
-                <tr class="headings">
-                    <th>
-                        <input type="text" class="capture-form" name="capture" style="width: 100%; color: #2A3F54;" placeholder="input capture URL">
-                    </th>
-                    <input type="hidden" name="user_id" value="<?php echo $userController->getUser('user_id'); ?>">
-                </tr>
-                </thead>
-            </table>
+        <table class="table table-striped jambo_table bulk_action">
+            <thead>
+            <tr class="headings">
+                <th>
+                    <input type="text" class="capture-form" name="capture" style="width: 100%; color: #2A3F54;" placeholder="input capture URL">
+                </th>
+                <input type="hidden" name="user_id" value="<?php echo $userController->getUser('user_id'); ?>">
+            </tr>
+            </thead>
+        </table>
         <div class="title_right">
             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search" style="float: none !important;">
                 <?php if(isset($form['error'])): ?>
