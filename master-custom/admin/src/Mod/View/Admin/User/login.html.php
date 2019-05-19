@@ -1,43 +1,42 @@
- <div class="animate form login_form">
-     <?php if(isset($form['error'])):?>
-         <p>入力にエラーがあります。</p>
-     <?php endif; ?>
-          <section class="login_content">
-            <form name="login_form">
-              <h1>Login Form</h1>
-              <div>
-                  <?php if(isset($form['error']['user_id'])): ?>
-                      <p><?php echo $form['error']['user_id']; ?></p>
-                  <?php endif;?>
+<div class="animate form login_form">
+    <?php if(isset($form['error'])):?>
+        <p>入力にエラーがあります。</p>
+    <?php endif; ?>
+    <section class="login_content">
+        <form name="login_form">
+            <h1>Login Form</h1>
+            <div>
+                <?php if(isset($form['error']['user_id'])): ?>
+                    <p><?php echo $form['error']['user_id']; ?></p>
+                <?php endif;?>
                 <input type="text" name="user_id" class="form-control" placeholder="User id" required="" value="<?php echo isset($form['user_id'])?$form['user_id']:'' ; ?>"/>
-              </div>
-              <div>
-                  <?php if(isset($form['error']['user_password'])): ?>
-                      <p><?php echo $form['error']['user_password']; ?></p>
-                  <?php endif;?>
+            </div>
+            <div>
+                <?php if(isset($form['error']['user_password'])): ?>
+                    <p><?php echo $form['error']['user_password']; ?></p>
+                <?php endif;?>
                 <input type="password" name="user_password" class="form-control" placeholder="User Password" required="" value="<?php echo isset($form['user_password'])?$form['user_password']:'' ; ?>"/>
-              </div>
-              <div>
+            </div>
+            <div>
                 <a class="btn btn-default submit" href="javascript:void(0);" onclick="sendForm('login');">Log in</a>
-              </div>
+            </div>
 
-              <div class="clearfix"></div>
+            <div class="clearfix"></div>
 
-              <div class="separator">
+            <div class="separator">
                 <p class="change_link">New to site?
-                  <a href="javascript:void(0);" class="to_register" onclick="changeDisplay('create');"> Create Account </a>
+                    <a href="javascript:void(0);" class="to_register" onclick="changeDisplay('create');"> Create Account </a>
                 </p>
-
-                <div class="clearfix"></div>
-                <br />
-
+                
+                <div class="clearfix"></div><br />
+                
                 <div>
-                  <p>©<?php echo date('Y'); ?> All Rights Reserved.</p>
+                    <p>©<?php echo date('Y'); ?> All Rights Reserved.</p>
                 </div>
-              </div>
-            </form>
-          </section>
-        </div>
+            </div>
+        </form>
+    </section>
+</div>
 
  <script type="text/javascript">
      const ajaxFormUrl = "app/ajax/User/ajax-form.php";
