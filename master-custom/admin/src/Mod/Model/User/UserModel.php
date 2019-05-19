@@ -196,7 +196,7 @@ class UserModel extends BaseModel{
         $this->_where = $this->_modelHelper->getWhere();
         $data = $this->setDbSaveWhere($this->_where);
 
-        // 初期化
+        // クエリの初期化
         $this->cleanQueryBuilder();
         if(isset($data) AND count($data) > 0) {
             $data = [];
