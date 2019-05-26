@@ -87,6 +87,10 @@ class BaseModel extends Model {
                 }
             }
             $stmtString = $sqlStmt;
+            // TODO ORDER BYの実装
+//            if(isset($this->_modeHelper->getOrder()) AND count($this->_modelHelper->getOrder())) {
+//                $stmtString .= 'ORDER BY'
+//            }
             //$where['where'] = [];
         }
 
@@ -97,6 +101,8 @@ class BaseModel extends Model {
                 $this->_result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 return $this->_result;
             }
+            // クエリの初期化
+            $this->_modelHelper->cleanQueryBuilder();
         } catch(PDOException $e) {
             echo $e->getMessage();
             exit('SQL実行中にエラーが発生しました。'.PHP_EOL.'処理を中断します。');

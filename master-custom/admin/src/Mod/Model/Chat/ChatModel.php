@@ -1,5 +1,5 @@
 <?php
-namespace src\Mod\Model\Capture;
+namespace src\Mod\Model\Chat;
 
 use src\Mod\Model\Base\BaseModel;
 use src\Mod\Model\Chat\Model;

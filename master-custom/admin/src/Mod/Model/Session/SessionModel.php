@@ -10,6 +10,8 @@ class SessionModel extends Model{
 
     protected static $sessionInstance;
     protected static $sessionModelInstance;
+    
+    private $_loginEffectivePeriod;
 
     public function __construct($session)
     {
@@ -82,6 +84,6 @@ class SessionModel extends Model{
     {
         parent::setGlobalSessionKey($key);
     }
-
+    
 }
 ?>

@@ -30,7 +30,7 @@ class UserModel extends BaseModel{
         // グローバルキーを設定
         $this->_sessionModel->setGlobalSessionKey('user');
         $this->_sessionModel->setRedirect();
-        if($this->_sessionModel->getSession('user_id') != "") {
+        if(!empty($this->_sessionModel->getSession('user_id')) AND $this->_sessionModel->getSession('user_id') != "") {
             $this->_isLogged = true;
         }
     }
@@ -184,8 +184,7 @@ class UserModel extends BaseModel{
      */
     public function getAlreadyRegister()
     {
-        $this->_modelHelper->setSelect('user_id')
-            ->setSelect('user_deleted', 0);
+        $this->_modelHelper->setSelect('user_id');
 
         $this->_modelHelper->setDbTableName($this->_db_table)->setQueryBuilder(WEB_TOOL__SQL__STATEMENT_SELECT);
 
@@ -195,9 +194,7 @@ class UserModel extends BaseModel{
 
         $this->_where = $this->_modelHelper->getWhere();
         $data = $this->setDbSaveWhere($this->_where);
-
-        // クエリの初期化
-        $this->cleanQueryBuilder();
+        
         if(isset($data) AND count($data) > 0) {
             $data = [];
             $data['error']['user_id'] = 'すでに登録済みのIDです。他のIDを入力してください。';

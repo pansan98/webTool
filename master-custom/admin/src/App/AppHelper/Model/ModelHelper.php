@@ -9,6 +9,7 @@ class ModelHelper extends AppModelHelper{
     protected $_sqlStatementStatus;
     protected $_where = [];
     protected $_select = [];
+    protected $_order = [];
     protected $_db_table;
 
     private function __construct()
@@ -113,7 +114,29 @@ class ModelHelper extends AppModelHelper{
     {
         return $this->_select;
     }
-
+    
+    /**
+     * ORDERの追加
+     * @param $order
+     * @return $this
+     */
+    public function setOrder($order)
+    {
+        $this->_order[] = $order;
+        
+        return $this;
+    }
+    
+    /**
+     * 生成したorderを取得
+     * @return array
+     */
+    public function getOrder()
+    {
+        return $this->_order;
+    }
+    
+    
     /**
      * 生成したSQLを初期化する
      */
