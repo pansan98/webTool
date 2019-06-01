@@ -17,7 +17,6 @@ class UserModel extends BaseModel{
 
     protected $_db_table = 'applications_user';
 
-    protected $_where = [];
 
     private $_form = [];
     private $_createFormPassword;
@@ -192,8 +191,7 @@ class UserModel extends BaseModel{
         $this->_modelHelper->setAddWhere('user_id', $this->_form['user_id'])
             ->setAddWhere('user_deleted', 0);
 
-        $this->_where = $this->_modelHelper->getWhere();
-        $data = $this->setDbSaveWhere($this->_where);
+        $data = $this->setDbSaveWhere($this->_modelHelper->getWhere());
         
         if(isset($data) AND count($data) > 0) {
             $data = [];

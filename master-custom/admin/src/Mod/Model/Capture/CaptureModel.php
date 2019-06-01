@@ -13,7 +13,6 @@ class CaptureModel extends BaseModel{
     private $_sessionModel;
 
     protected $_statement;
-    protected $_where = [];
 
     // テーブル名
     protected $_db_table = 'applications_capture';
@@ -59,8 +58,7 @@ class CaptureModel extends BaseModel{
         $this->_modelHelper->setDbTableName($this->_db_table)->setQueryBuilder(WEB_TOOL__SQL__STATEMENT_SELECT);
         $this->_modelHelper->setAddWhere('user_id', $this->_sessionModel->getSession('user_id'));
 
-        $this->_where = $this->_modelHelper->getWhere();
-        $data = $this->setDbSaveWhere($this->_where);
+        $data = $this->setDbSaveWhere($this->_modelHelper->getWhere());
         $ret = [];
         if(isset($data) AND count($data) > 0) {
             for($i = 0; $i < count($data);$i++) {

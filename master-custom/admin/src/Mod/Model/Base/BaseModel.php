@@ -22,16 +22,7 @@ class BaseModel extends Model {
     {
         parent::init();
     }
-
-    protected function setDbConnect()
-    {
-        return parent::setDbConnect();
-    }
-
-    protected function getDbConnect()
-    {
-        return parent::getDbConnect();
-    }
+    
 
     protected function cleanQueryBuilder()
     {
