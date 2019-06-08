@@ -11,8 +11,6 @@ class BaseModel extends Model {
 
     protected $_modelHelper;
 
-    protected $_where = [];
-
     public function __construct()
     {
         $this->_modelHelper = ModelHelper::getInstance();
@@ -34,7 +32,7 @@ class BaseModel extends Model {
         $this->init();
         if($this->setDbConnect()) {
             $this->_pdo = $this->getDbConnect();
-            if($this->_modelHelper->getSQLStatementStatus() === WEB_TOOL__SQL__STATEMENT_SELECT) {
+            if($this->_modelHelper->getSqltatus()) {
                 return $this->runDbSave($where);
             }
             $this->runDbSave($where);
@@ -54,7 +52,7 @@ class BaseModel extends Model {
         $sqlStmt = "";
         $sqlStmt = $where['statement'];
         $bindValue = "(";
-        if($this->_modelHelper->getSQLStatementStatus() === WEB_TOOL__SQL__STATEMENT_INSERT) {
+        if($this->_modelHelper->getSqlStatus() === WEB_TOOL__SQL__STATEMENT_INSERT) {
             foreach ($where['where'] as $keys => $value) {
                 if($value === end($where['where'])) {
                     $sqlStmt .= $keys.')';
@@ -66,7 +64,7 @@ class BaseModel extends Model {
             }
 
             $stmtString = $sqlStmt.'VALUES'.$bindValue;
-        } elseif($this->_modelHelper->getSQLStatementStatus() === WEB_TOOL__SQL__STATEMENT_SELECT) {
+        } elseif($this->_modelHelper->getSqlStatus()) {
             if(isset($where['where'])) {
                 $sqlStmt .= " WHERE ";
                 foreach ($where['where'] as $keys => $value) {
@@ -88,7 +86,7 @@ class BaseModel extends Model {
         try {
             $stmt = $this->_pdo->prepare($stmtString);
             $stmt->execute($where['where']);
-            if($this->_modelHelper->getSQLStatementStatus() === WEB_TOOL__SQL__STATEMENT_SELECT) {
+            if($this->_modelHelper->getSqlStatus()) {
                 $this->_result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 return $this->_result;
             }
