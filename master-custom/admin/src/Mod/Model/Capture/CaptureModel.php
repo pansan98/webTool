@@ -41,8 +41,7 @@ class CaptureModel extends BaseModel{
             $this->_modelHelper->setAddWhere($keyWhere, $valWhere);
         }
 
-        $this->_where = $this->_modelHelper->getWhere();
-        $this->setDbSaveWhere($this->_where);
+        $this->setDbSaveWhere($this->_modelHelper->getWhere());
     }
 
     protected function setDbSaveWhere(array $where)
