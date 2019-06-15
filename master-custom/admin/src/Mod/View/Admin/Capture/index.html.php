@@ -25,7 +25,7 @@ $webToolItems = $actionController->getData();
             <?php
                 foreach($webToolItems as $item):
             ?>
-                <tr class="even pointer">
+                <tr class="even pointer point">
 <!--                        <td class="a-center ">-->
 <!--                            <input type="checkbox" class="flat" name="table_records">-->
 <!--                        </td>-->
@@ -33,7 +33,7 @@ $webToolItems = $actionController->getData();
                     <td class=" "><?php echo $item->getCaptureCopy(); ?></td>
                     <td class=" "><?php echo $item->getCaptureCreated(); ?></td>
                     <td class=" ">見る</td>
-                    <td class=" ">削除</td>
+                    <td class=" "><button onclick="delete(<?php echo $item->getId();?>);" class="btn btn-default" type="button" style="float: right;">削除</button></td>
                 </tr>
             <?php
                 endforeach;
@@ -51,6 +51,6 @@ $webToolItems = $actionController->getData();
 </div>
 <style>
     .point td {
-        vertical-align: middle;
+        vertical-align: middle !important;
     }
 </style>

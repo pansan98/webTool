@@ -30,56 +30,77 @@ class BaseModel extends Model {
     protected function setDbSaveWhere(array $where)
     {
         $this->init();
+        // データーベース接続
         if($this->setDbConnect()) {
             $this->_pdo = $this->getDbConnect();
-            if($this->_modelHelper->getSqltatus()) {
+            if($this->_modelHelper->getSqlStatus()) {
                 return $this->runDbSave($where);
             }
             $this->runDbSave($where);
         } else {
+            // 失敗時はエラーを返す
             $error = $this->getDbConnect();
             var_dump($error['error']);
             exit('DB接続に失敗しました。');
         }
     }
-
+    
     /**
      * @param $where
-     * execute SQL
+     * @return array
      */
     private function runDbSave($where)
     {
         $sqlStmt = "";
-        $sqlStmt = $where['statement'];
+        $sqlStmt = $this->_modelHelper->getSqlStatement();
         $bindValue = "(";
         if($this->_modelHelper->getSqlStatus() === WEB_TOOL__SQL__STATEMENT_INSERT) {
+            $whereCnt = 1;
+            $whereLimit = count($where['where']);
             foreach ($where['where'] as $keys => $value) {
-                if($value === end($where['where'])) {
+                if($whereCnt == $whereLimit) {
                     $sqlStmt .= $keys.')';
                     $bindValue .= ':'.$keys.')';
                 } else {
                     $sqlStmt .= $keys.', ';
                     $bindValue .= ':'.$keys.', ';
                 }
+                $whereCnt++;
             }
 
             $stmtString = $sqlStmt.'VALUES'.$bindValue;
         } elseif($this->_modelHelper->getSqlStatus()) {
             if(isset($where['where'])) {
                 $sqlStmt .= " WHERE ";
+                // last where set count
+                $whereCnt = 1;
+                $whereLimit = count($where['where']);
                 foreach ($where['where'] as $keys => $value) {
-                    if($value === end($where['where'])) {
-                        $sqlStmt .= $keys.'= :'.$keys;
+                    if($whereCnt == $whereLimit) {
+                        $sqlStmt .= $keys.' = :'.$keys;
                     } else {
-                        $sqlStmt .= $keys.'= :'.$keys.' AND ';
+                        $sqlStmt .= $keys.' = :'.$keys.' AND ';
                     }
+                    $whereCnt++;
                 }
             }
             $stmtString = $sqlStmt;
             // TODO ORDER BYの実装
-//            if(isset($this->_modeHelper->getOrder()) AND count($this->_modelHelper->getOrder())) {
-//                $stmtString .= 'ORDER BY'
-//            }
+            if(count($this->_modelHelper->getOrder()) > 0) {
+                $stmtString .= ' ORDER BY';
+                $orders = $this->_modelHelper->getOrder();
+                // last order set count
+                $orderCnt = 1;
+                $orderLimit = count($orders);
+                foreach($orders as $order => $sort) {
+                    if($orderCnt == $orderLimit) {
+                        $stmtString .= $order.' '.$sort;
+                    } else {
+                        $stmtString .= ' '.$order.' '.$sort.',';
+                    }
+                    $orderCnt++;
+                }
+            }
             //$where['where'] = [];
         }
 
@@ -88,6 +109,8 @@ class BaseModel extends Model {
             $stmt->execute($where['where']);
             if($this->_modelHelper->getSqlStatus()) {
                 $this->_result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                // クエリの初期化
+                $this->_modelHelper->cleanQueryBuilder();
                 return $this->_result;
             }
             // クエリの初期化

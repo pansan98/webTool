@@ -24,7 +24,11 @@ class CaptureModel extends BaseModel{
         $this->_sessionModel = SessionModel::getInstance();
         $this->_sessionModel->setGlobalSessionKey('user');
     }
-
+    
+    /**
+     * Get an instance
+     * @return CaptureModel
+     */
     public static function getInstance()
     {
         if(!self::$instance instanceof CaptureModel) {
@@ -33,7 +37,10 @@ class CaptureModel extends BaseModel{
 
         return self::$instance;
     }
-
+    
+    /**
+     * @param array $wheres
+     */
     public function isRunSaves(array $wheres)
     {
         $this->_modelHelper->setDbTableName($this->_db_table)->setQueryBuilder(WEB_TOOL__SQL__STATEMENT_INSERT);
@@ -43,7 +50,12 @@ class CaptureModel extends BaseModel{
 
         $this->setDbSaveWhere($this->_modelHelper->getWhere());
     }
-
+    
+    /**
+     * データベース操作
+     * @param array $where
+     * @return array
+     */
     protected function setDbSaveWhere(array $where)
     {
         if($this->_modelHelper->getSqlStatus()) {
@@ -51,11 +63,16 @@ class CaptureModel extends BaseModel{
         }
         parent::setDbSaveWhere($where);
     }
-
+    
+    /**
+     * データの取得
+     * @return array
+     */
     public function getData()
     {
         $this->_modelHelper->setDbTableName($this->_db_table)->setQueryBuilder(WEB_TOOL__SQL__STATEMENT_SELECT);
-        $this->_modelHelper->setAddWhere('user_id', $this->_sessionModel->getSession('user_id'));
+        // where and order
+        $this->_modelHelper->setAddWhere('user_id', $this->_sessionModel->getSession('user_id'))->setOrder(['capture_created' => 'DESC', 'id' => 'DESC']);
 
         $data = $this->setDbSaveWhere($this->_modelHelper->getWhere());
         $ret = [];
@@ -79,7 +96,10 @@ class CaptureModel extends BaseModel{
         }
         return $ret;
     }
-
+    
+    /**
+     * モデルのセット
+     */
     protected function setModel()
     {
         if(isset($this->_model)) {

@@ -63,7 +63,7 @@ class Model extends CaptureModel {
 
     public function getId()
     {
-        return $this->id;
+        return $this->_id;
     }
 
     protected function setUserId($userId)

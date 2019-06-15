@@ -169,9 +169,7 @@ class UserModel extends BaseModel{
 
     public function setLogin(array $form)
     {
-        foreach ($form as $keyForm => $valForm) {
-            $this->_form[$keyForm] = $valForm;
-        }
+        $this->_form = $form;
 
         return $this;
     }

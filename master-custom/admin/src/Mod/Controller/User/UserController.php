@@ -103,12 +103,14 @@ class UserController extends BaseController {
     public function setDbUserSaves($post)
     {
         $this->createFormFactory();
-        $formData = array_merge($this->setHelper()->_helper->getForm($post), $this->_form->setFormFactory($this->setHelper()->_helper->getForm($post)));
+        $form = $this->setHelper()->_helper->getForm($post);
+        $formData = array_merge($form, $this->_form->setFormFactory($form));
         if(isset($formData['error'])) {
             return $formData;
         }
 
         if($formData['display'] == 'create') {
+            // IDがすでに存在してるかチェック
             $login = $this->_model->setLogin($formData)->getAlreadyRegister();
             if(isset($login['error'])) {
                 $login = array_merge($login, $formData);
@@ -117,6 +119,7 @@ class UserController extends BaseController {
                 return $this->_model->setDbUserSaves($formData);
             }
         } elseif($formData['display'] == 'login') {
+            // ログイン処理
             $login = $this->_model->setLogin($formData)->getLogin();
             if(isset($login['error'])) {
                 $login = array_merge($login, $formData);

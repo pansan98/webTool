@@ -7,6 +7,7 @@ class ModelHelper extends AppModelHelper{
     protected static $instanceHelper;
 
     protected $_sqlStatementStatus;
+    protected $_sqlStatement;
     protected $_where = [];
     protected $_select = [];
     protected $_order = [];
@@ -46,7 +47,7 @@ class ModelHelper extends AppModelHelper{
     public function setQueryBuilder($statement)
     {
         $this->_sqlStatementStatus = $statement;
-        $this->_where['statement'] = $this->getQueryBuilder($statement);
+        $this->setSqlStatement($this->getQueryBuilder($statement));
 
         return $this;
     }
@@ -120,9 +121,9 @@ class ModelHelper extends AppModelHelper{
      * @param $order
      * @return $this
      */
-    public function setOrder($order)
+    public function setOrder(array $order)
     {
-        $this->_order[] = $order;
+        $this->_order = $order;
         
         return $this;
     }
@@ -136,6 +137,23 @@ class ModelHelper extends AppModelHelper{
         return $this->_order;
     }
     
+    /**
+     * 生成したステートメントをセット
+     * @param $statement
+     */
+    protected function setSqlStatement($statement)
+    {
+        $this->_sqlStatement = $statement;
+    }
+    
+    /**
+     * 生成したステートメントを取得
+     * @return mixed
+     */
+    public function getSqlStatement()
+    {
+        return $this->_sqlStatement;
+    }
     
     /**
      * 生成したSQLを初期化する
