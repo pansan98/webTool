@@ -33,7 +33,7 @@ $webToolItems = $actionController->getData();
                     <td class=" "><?php echo $item->getCaptureCopy(); ?></td>
                     <td class=" "><?php echo $item->getCaptureCreated(); ?></td>
                     <td class=" ">見る</td>
-                    <td class=" "><button onclick="deleteAction(<?php echo $item->getId();?>);" class="btn btn-default" type="button" style="float: right;">削除</button></td>
+                    <td class=" "><button onclick="delete(<?php echo $item->getId();?>);" class="btn btn-default" type="button" style="float: right;">削除</button></td>
                 </tr>
             <?php
                 endforeach;
@@ -54,8 +54,3 @@ $webToolItems = $actionController->getData();
         vertical-align: middle !important;
     }
 </style>
-<script type="text/javascript">
-    function deleteAction(id) {
-        window.location = './delete/'+id;
-    }
-</script>
