@@ -30,5 +30,8 @@ class File {
     {
         return $this->_errors;
     }
+    
+    
+    echo 'aaaa';
 }
 ?>
