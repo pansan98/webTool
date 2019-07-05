@@ -72,4 +72,7 @@ if(!defined('WEB_TOOL__MASTER_CUSTOM__ROOT_APP_PATH')) {
 }
 
 define('aaaae', 'aa');
+
+
+echo 'aaa';
 ?>
