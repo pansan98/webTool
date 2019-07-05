@@ -30,5 +30,10 @@ class File {
     {
         return $this->_errors;
     }
+    
+    public function test()
+    {
+        return 'で、コミットファイルをする';
+    }
 }
 ?>
