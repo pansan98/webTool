@@ -63,7 +63,11 @@ class UserHelper extends ModelHelper{
     {
         return $this->_where;
     }
-
+    
+    /**
+     * @param $statement
+     * @return mixed|string
+     */
     private function getSQLStatement($statement)
     {
         $sql = "";
