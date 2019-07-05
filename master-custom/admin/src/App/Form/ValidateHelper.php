@@ -37,7 +37,11 @@ class ValidateHelper {
 
         return $this;
     }
-
+    
+    /**
+     * @param $key
+     * @return array|null
+     */
     public function getValidate($key)
     {
         if(isset($this->_validate[$key])) {
@@ -46,14 +50,21 @@ class ValidateHelper {
 
         return null;
     }
-
+    
+    /**
+     * @param array $factory
+     */
     public function setFormFactory(array $factory)
     {
         foreach ($factory as $key => $validate) {
-            $this->setValidate($key, $factory[$key]['name'], $validate);
+            $this->setValidate($key, $factory[$key]['name'], $validate, 9999);
         }
     }
-
+    
+    /**
+     * @param $require
+     * @return bool
+     */
     public function factoryRequire($require)
     {
         $error = false;
@@ -63,7 +74,12 @@ class ValidateHelper {
 
         return $error;
     }
-
+    
+    /**
+     * @param $string
+     * @param $len
+     * @return bool
+     */
     public function factoryLength($string, $len)
     {
         $error = false;
@@ -75,7 +91,11 @@ class ValidateHelper {
 
         return $error;
     }
-
+    
+    /**
+     * @param $character
+     * @return bool
+     */
     public function factoryRomanCharacter($character)
     {
         $error = false;
@@ -88,7 +108,11 @@ class ValidateHelper {
 
         return $error;
     }
-
+    
+    /**
+     * @param $num
+     * @return bool
+     */
     public function factoryNumeric($num)
     {
         $error = false;
@@ -100,7 +124,11 @@ class ValidateHelper {
 
         return $error;
     }
-
+    
+    /**
+     * @param $url
+     * @return bool
+     */
     public function factoryUrl($url)
     {
         $error = false;
