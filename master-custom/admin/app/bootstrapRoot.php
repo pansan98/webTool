@@ -71,8 +71,4 @@ if(!defined('WEB_TOOL__MASTER_CUSTOM__ROOT_APP_PATH')) {
     define('WEB_TOOL__MASTER_CUSTOM__ROOT_APP_PATH', WEB_TOOL__MASTER_CUSTOM__ROOT_PATH.'admin/src/App/');
 }
 
-define('aaaae', 'aa');
-
-
-echo 'aaa';
 ?>
