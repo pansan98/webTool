@@ -113,5 +113,10 @@ class CaptureModel extends BaseModel{
     {
         return 'hoge';
     }
+    
+    public function setHoge($hoge1)
+    {
+        $hoge = $hoge1;
+    }
 }
 ?>
