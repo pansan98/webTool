@@ -108,5 +108,10 @@ class CaptureModel extends BaseModel{
 
         $this->_model = new Model();
     }
+    
+    public function getHoge()
+    {
+        return 'hoge';
+    }
 }
 ?>
