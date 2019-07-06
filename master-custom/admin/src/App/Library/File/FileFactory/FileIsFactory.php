@@ -3,6 +3,7 @@ namespace App\Library\File\FileFactory;
 
 use App\Library\File\Factory\FileFactory;
 use App\Library\File\Factory\Factory;
+use App\Library\File\FileInterface\FileClientInterface;
 use \Exception;
 
 class FileIsFactory extends FileFactory {
@@ -22,7 +23,8 @@ class FileIsFactory extends FileFactory {
                     if($tempRet) {
                         $alreadyRet = $this->_errorObj->isAlreadyFile($this->_fileObj[$attribute], $this->getUploadFileDir());
                         if($alreadyRet) {
-                            return $this->moveUpload($this->_fileObj[$attribute], $this->getUploadFileDir());
+                            return $this->_fileObj[$attribute];
+                            //return $this->moveUpload($this->_fileObj[$attribute], $this->getUploadFileDir());
                         }
                     }
                 }
@@ -40,7 +42,7 @@ class FileIsFactory extends FileFactory {
      * @return false|string
      * @throws Exception
      */
-    protected function moveUpload(Factory $obj, $moveDir)
+    public function moveUpload(Factory $obj, $moveDir)
     {
         $temporary = explode('.', $obj->getFileName());
         $fileName = time().'_'.$temporary[1].'.'.$temporary[1];

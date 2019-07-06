@@ -2,49 +2,51 @@
 
 namespace App\Library\File;
 
-use Exception;
 use App\Library\File\FileFactory\FileIsFactory;
+use App\Library\File\Factory\Factory;
+use App\Library\File\FileFactory\FileErrorFactory;
+use App\Library\File\FileFactory\ErrorFactory;
+use Exception;
 
 class FileClient {
-    private $_useArray = false;
     
     protected $_filePath;
     protected $_fileFactory;
+    protected $_fileErrorFactory;
     
     protected $_errors;
     
+    /**
+     * FileClient constructor.
+     */
     public function __construct()
     {
         $this->_fileFactory = new FileIsFactory();
+        $this->_fileErrorFactory = new FileErrorFactory();
     }
     
-    public function createFile($file, $key)
+    /**
+     * @param $attr
+     * @return false|mixed|string
+     * @throws Exception
+     */
+    public function registerClient($attr)
     {
-        if($this->_useArray) {
-            $this->setArrayFile($file, $key);
-        } else {
-            $this->setIsFile($file, $key);
-        }
-    }
-    
-    public function getFile($key)
-    {
-        if(isset($this->_file[$key])) {
-            return $this->_file[$key];
+        $ret = $this->_fileFactory->registerUploadFile($attr);
+        if(!$this->_fileErrorFactory->getIsError()) {
+            if($ret instanceof Factory) {
+                $data = $this->_fileFactory->moveUpload($ret, $this->_fileFactory->getUploadFileDir());
+                return $data;
+            }
         }
         
-        return null;
-    }
-    
-    public function getError()
-    {
-        return $this->_errors;
+        return $ret;
     }
     
     /**
      * @param $dir
      */
-    public function setFileDir($dir)
+    public function setFileDirClient($dir)
     {
         $this->_fileFactory->setUploadFileDir($dir);
     }
@@ -53,39 +55,15 @@ class FileClient {
      * @param $file
      * @param $key
      */
-    protected function setIsFile($file, $key)
+    public function setFileClient($file, $key)
     {
         $this->_fileFactory->deleteCurrentFile($key);
         $this->_fileFactory->setFactory($file, $key);
     }
     
-    protected function setArrayFile($files, $key)
+    public function setArrayFile($files, $key)
     {
     
-    }
-    
-    /**
-     * @param bool $status
-     */
-    public function setUseArray(bool $status)
-    {
-        $this->_useArray = $status;
-    }
-    
-    /**
-     * secret method
-     * @param callable $callback
-     * @param $parameter
-     */
-    public function setCall(callable $callback, $parameter)
-    {
-        if(!method_exists($this, $callback)) {
-            throw new Exception(
-                'There is no method on the object.'
-            );
-        }
-        
-        $this->$callback($parameter);
     }
     
     

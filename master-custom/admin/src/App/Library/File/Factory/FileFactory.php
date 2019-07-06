@@ -8,7 +8,6 @@ use App\Library\File\Factory\Factory;
 class FileFactory implements FileClientInterface {
     
     protected $_fileObj = [];
-    protected $_file = [];
     protected $_uploadFileDir;
     
     protected $_errorObj;
@@ -30,7 +29,8 @@ class FileFactory implements FileClientInterface {
             $this->_fileObj[$key] = new Factory();
         }
         
-        $this->_fileObj[$key]->setFileName($file[$key]['name'])->setFileType($file[$key]['type'])->setFileSize($file[$key]['size'])->setFileTmpName($file[$key]['tmp_name'])->setFileExtension(end(explode('.', $this->_fileObj->getFileName())))->setFileError($file[$key]['error']);
+        $this->_fileObj[$key]->setFileName($file[$key]['name'])->setFileType($file[$key]['type'])->setFileSize($file[$key]['size'])->setFileTmpName($file[$key]['tmp_name'])->setFileError($file[$key]['error']);
+        $this->_fileObj[$key]->setFileExtension(end(explode('.', $this->_fileObj->getFileName())));
     }
     
     /**
@@ -39,11 +39,13 @@ class FileFactory implements FileClientInterface {
      */
     public function getFactory($key)
     {
-        if($this->_fileObj[$key] instanceof Factory) {
-            return $this->_file[$key];
+        if(!$this->_fileObj[$key] instanceof Factory) {
+            if(isset($this->_fileObj[$key]) AND !is_null($this->_fileObj[$key])) {
+                unset($this->_fileObj[$key]);
+            }
         }
         
-        return null;
+        return $this->_fileObj[$key];
     }
     
     /**
@@ -69,8 +71,8 @@ class FileFactory implements FileClientInterface {
      */
     public function deleteCurrentFile($key)
     {
-        if(isset($this->_file[$key]) AND $this->_fileObj instanceof Factory) {
-            unset($this->_file[$key]);
+        if(isset($this->_fileObj[$key]) AND $this->_fileObj[$key] instanceof Factory) {
+            $this->deleteFile($this->getUploadFileDir().$this->_fileObj[$key]->getFileName());
             unset($this->_fileObj[$key]);
         }
     }
@@ -87,9 +89,19 @@ class FileFactory implements FileClientInterface {
     /**
      * @return mixed
      */
-    public function getUploadFileDIr()
+    public function getUploadFileDir()
     {
         return $this->_uploadFileDir;
+    }
+    
+    /**
+     * @param $fileDir
+     */
+    protected function deleteFile($fileDir)
+    {
+        if(file_exists($fileDir)) {
+            @unlink($fileDir);
+        }
     }
 }
 ?>
