@@ -9,13 +9,13 @@ class FileClient {
     private $_useArray = false;
     
     protected $_filePath;
-    protected $_fileObj;
+    protected $_fileFactory;
     
     protected $_errors;
     
     public function __construct()
     {
-        $this->_fileObj = new FileIsFactory();
+        $this->_fileFactory = new FileIsFactory();
     }
     
     public function createFile($file, $key)
@@ -42,13 +42,21 @@ class FileClient {
     }
     
     /**
+     * @param $dir
+     */
+    public function setFileDir($dir)
+    {
+        $this->_fileFactory->setUploadFileDir($dir);
+    }
+    
+    /**
      * @param $file
      * @param $key
      */
     protected function setIsFile($file, $key)
     {
-        $this->_fileObj->deleteCurrentFile($key);
-        $this->_fileObj->setFile($file, $key);
+        $this->_fileFactory->deleteCurrentFile($key);
+        $this->_fileFactory->setFactory($file, $key);
     }
     
     protected function setArrayFile($files, $key)
@@ -80,6 +88,10 @@ class FileClient {
         $this->$callback($parameter);
     }
     
+    
+    /**
+     * sample code
+     */
     protected function ajaxFileUpload()
     {
         $result = array();

@@ -1,42 +1,64 @@
 <?php
 namespace App\Library\File\FileFactory;
 
-use App\Library\File\FileInterface\FileClientInterface;
+use App\Library\File\Factory\FileFactory;
+use App\Library\File\Factory\Factory;
+use \Exception;
 
-class FileIsFactory implements FileClientInterface {
+class FileIsFactory extends FileFactory {
     
-    protected $_file;
-    
-    protected $_errorObj;
-    protected $_errors = [];
-    
-    public function setFile($file, $key)
+    /**
+     * @param $attribute
+     * @return false|mixed|string
+     * @throws Exception
+     */
+    public function registerUploadFile($attribute)
     {
-        if(isset($this->_file[$key]['type'])) {
-            $this->_file[$key] = $file;
+        if(isset($this->_fileObj[$attribute])) {
+            $afterFile = $this->_errorObj->isFileSizeType($this->_fileObj[$attribute]->getFileType());
+            if(!$afterFile instanceof FileErrorFactory) {
+                if($this->_errorObj->getIsError()) {
+                    $tempRet = $this->_errorObj->isFileTemplate($this->_fileObj[$attribute]->getFileError());
+                    if($tempRet) {
+                        $alreadyRet = $this->_errorObj->isAlreadyFile($this->_fileObj[$attribute], $this->getUploadFileDir());
+                        if($alreadyRet) {
+                            return $this->moveUpload($this->_fileObj[$attribute], $this->getUploadFileDir());
+                        }
+                    }
+                }
+            }
+        } else {
+            return $this->getFactory($attribute);
         }
+        
+        return $this->getErrors();
     }
     
-    public function getFile($key)
+    /**
+     * @param Factory $obj
+     * @param $moveDir
+     * @return false|string
+     * @throws Exception
+     */
+    protected function moveUpload(Factory $obj, $moveDir)
     {
-        return $this->_file[$key];
-    }
-    
-    public function getErrors()
-    {
-        return $this->_errorObj;
-    }
-    
-    public function getError($key)
-    {
-        return $this->_errors[$key];
-    }
-    
-    public function deleteCurrentFile($key)
-    {
-        if(isset($this->_file[$key])) {
-            unset($this->_file[$key]);
+        $temporary = explode('.', $obj->getFileName());
+        $fileName = time().'_'.$temporary[1].'.'.$temporary[1];
+        $sourcePath = $obj->getFileTmpName();
+        $movePath = $moveDir.$fileName;
+        if(!move_uploaded_file($sourcePath, $movePath)) {
+            throw new Exception(
+                'File upload failed. Please check the permissions.'
+            );
         }
+        
+        $result = [
+            'name' => $fileName,
+            'error' => false,
+            'extension' => $obj->getFileExtension()
+        ];
+        
+        return json_encode($result);
     }
 }
 ?>

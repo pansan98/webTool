@@ -8,13 +8,13 @@ interface FileClientInterface {
      * @param $key
      * @return mixed
      */
-    public function setFile($file, $key);
+    public function setFactory($file, $key);
     
     /**
      * @param $key
      * @return mixed
      */
-    public function getFIle($key);
+    public function getFactory($key);
     
     /**
      * @param $key
@@ -32,5 +32,11 @@ interface FileClientInterface {
      * @return mixed
      */
     public function deleteCurrentFile($key);
+    
+    /**
+     * @param $dir
+     * @return mixed
+     */
+    public function setUploadFileDir($dir);
 }
 ?>
