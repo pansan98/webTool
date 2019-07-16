@@ -191,6 +191,8 @@ class CaptureController extends BaseController {
         $this->_form->setValidate('capture_url', 'キャプチャーURL', ['require', 'url']);
 
         $this->_form->createMessageFactory('Capture');
+
+        echo 'aiueo';
     }
 
 }
