@@ -58,10 +58,15 @@ class ChatController extends BaseController {
         return $this;
     }
 
-    public function getRenderView()
+    public function getRenderView($data = array())
     {
         $view = parent::getRenderView();
-        return WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.$this->getDisplayName().'/'.$this->getActionName().'/'.$view;
+        extract($data);
+        ob_start();
+        include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.$this->getDisplayName().'/'.$this->getActionName().'/'.$view;
+        $render = ob_get_contents();
+        ob_clean();
+        return $render;
     }
 
     public function setDisplayName()

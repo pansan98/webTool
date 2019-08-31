@@ -65,7 +65,7 @@ include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.'Admin/Parts/head.php';
                                 </div>
                                 
                                 <?php
-                                    include $actionController->setRenderView('edit.html.php')->setDisplayName()->getRenderView();
+                                    echo $actionController->setRenderView('edit.html.php')->setDisplayName()->getRenderView(compact("userController", "form"));
                                 ?>
                             </div>
                         </div>

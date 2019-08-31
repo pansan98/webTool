@@ -36,7 +36,7 @@ class FileErrorFactory implements FileErrorsInterface {
                     return $obj;
                 } else {
                     $this->setIsError(true);
-                    $this->_errorFactory->setExtensionsError($obj->getFIleName().'は有効なファイルではありません。');
+                    $this->_errorFactory->setExtensionsError($obj->getFileName().'は有効なファイルではありません。');
                 }
             } else {
                 $this->setIsError(true);

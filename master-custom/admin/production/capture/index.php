@@ -7,6 +7,7 @@ $baseController = new Controller();
 $userController = $baseController->setActionName('User')->getController();
 $userController->isLogged();
 $actionController = $baseController->setActionName('Capture')->getController();
+$webToolItems = $actionController->getData();
 include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.'Admin/Parts/head.php';
 ?>
 <body class="nav-md footer_fixed">
@@ -72,7 +73,7 @@ include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.'Admin/Parts/head.php';
                                 </div>
                                 
                                 <?php
-                                    include $actionController->setRenderView('index.html.php')->setDisplayName()->getRenderView();
+                                    echo $actionController->setRenderView('index.html.php')->setDisplayName()->getRenderView(compact("webToolItems"));
                                 ?>
                             </div>
                         </div>
