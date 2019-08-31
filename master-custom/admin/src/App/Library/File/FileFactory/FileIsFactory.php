@@ -45,7 +45,7 @@ class FileIsFactory extends FileFactory {
     public function moveUpload(Factory $obj, $moveDir)
     {
         $temporary = explode('.', $obj->getFileName());
-        $fileName = time().'_'.$temporary[1].'.'.$temporary[1];
+        $fileName = time().'_'.$temporary[0].'.'.$temporary[1];
         $sourcePath = $obj->getFileTmpName();
         $movePath = $moveDir.$fileName;
         if(!move_uploaded_file($sourcePath, $movePath)) {

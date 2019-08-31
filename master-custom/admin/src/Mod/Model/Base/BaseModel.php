@@ -4,6 +4,7 @@ namespace src\Mod\Model\Base;
 use src\Mod\Model\Model;
 use src\App\AppHelper\Model\ModelHelper;
 use \PDO;
+use \PDOException;
 
 class BaseModel extends Model {
     protected $_pdo;
@@ -52,9 +53,10 @@ class BaseModel extends Model {
     private function runDbSave($where)
     {
         $sqlStmt = "";
+        $stmtString = '';
         $sqlStmt = $this->_modelHelper->getSqlStatement();
         $bindValue = "(";
-        if($this->_modelHelper->getSqlStatus() === WEB_TOOL__SQL__STATEMENT_INSERT) {
+        if($this->_modelHelper->getSQLStatementStatus() === WEB_TOOL__SQL__STATEMENT_INSERT) {
             $whereCnt = 1;
             $whereLimit = count($where['where']);
             foreach ($where['where'] as $keys => $value) {
@@ -85,7 +87,6 @@ class BaseModel extends Model {
                 }
             }
             $stmtString = $sqlStmt;
-            // TODO ORDER BYの実装
             if(count($this->_modelHelper->getOrder()) > 0) {
                 $stmtString .= ' ORDER BY';
                 $orders = $this->_modelHelper->getOrder();

@@ -16,7 +16,7 @@
 
             <tbody>
             <?php
-                if(isset($webToolItems)):
+                if(!empty($webToolItems)):
             ?>
             <?php
                 foreach($webToolItems as $item):
