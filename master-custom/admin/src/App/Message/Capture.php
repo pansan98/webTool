@@ -23,7 +23,8 @@ class Capture implements MessageInterface {
         $this->_messageFactory = [
             'require' => '入力をしてください。',
             'length' => '文字以内で入力してください。',
-            'url' => 'URLは正しい形式で入力してください。'
+            'url' => 'URLは正しい形式で入力してください。',
+            'capture_url' => 'URLは正しい形式で入力してください。'
         ];
     }
 

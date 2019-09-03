@@ -80,6 +80,7 @@ class FormHelper {
                             }
                             break;
                         case 'url':
+                        case 'capture_url':
                             if($this->_validateHelper->factoryUrl($val)) {
                                 if(!isset($validateError['error'][$key])) {
                                     $validateError['error'][$key] = $this->_messageHelper->getEngineFactory()->getMessageFactory($validate[$key][$i]);

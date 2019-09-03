@@ -76,7 +76,7 @@ class CaptureModel extends BaseModel{
 
         $data = $this->setDbSaveWhere($this->_modelHelper->getWhere());
         $ret = [];
-        if(isset($data) AND count($data) > 0) {
+        if( !empty($data)) {
             for($i = 0; $i < count($data);$i++) {
                 // モデルをセット
                 $this->setModel();

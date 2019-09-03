@@ -63,7 +63,11 @@
                 "type":"post",
                 "data":{"capture_url":url, "user_id":user_id}
             }).done(function(response){
-                removeLoading();
+				removeLoading();
+            	if(response === "SUCCESS") {
+            		redirectBack();
+				}
+                $('.ajax-contents-edit').html(response);
             }).fail(function(xhr, errorThrow, textStatus){
                 removeLoading();
                 console.log(errorThrow);

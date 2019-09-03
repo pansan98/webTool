@@ -162,6 +162,7 @@ class ModelHelper extends AppModelHelper{
     {
         $this->_where = [];
         $this->_select = [];
+        $this->_order = [];
     }
 
     // Add first if you want to select

@@ -64,9 +64,11 @@ include WEB_TOOL__MASTER_CUSTOM__ROOT_MOD__VIEW_DIR.'Admin/Parts/head.php';
                                     <div class="clearfix"></div>
                                 </div>
                                 
+								<div class="ajax-contents-edit">
                                 <?php
                                     echo $actionController->setRenderView('edit.html.php')->setDisplayName()->getRenderView(compact("userController", "form"));
                                 ?>
+								</div>
                             </div>
                         </div>
                     </div>

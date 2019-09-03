@@ -127,6 +127,11 @@ class CaptureController extends BaseController {
 
         $this->_fileName = $this->_helper->getRandomText().'.jpg';
         $this->_fileDir = WEB_TOOL__ROOT_DATAS_DIR.$this->getActionName().'/'.$this->_fileName;
+        
+        if(!file_exists($this->_fileDir)) {
+            touch($this->_fileDir);
+        }
+        
         $this->_request->setOutputFile($this->_fileDir);
 
         $this->_client->send($this->_request, $this->_response);
